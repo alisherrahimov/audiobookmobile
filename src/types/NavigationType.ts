@@ -13,6 +13,9 @@ export type NavigationType = {
   Search: undefined;
   BottomTab: undefined;
   ConfirmationCode: undefined;
+  Welcome: undefined;
+  SelectTopic: undefined;
+  Books: undefined;
 };
 
 export type NativeStackType = NativeStackScreenProps<NavigationType>;

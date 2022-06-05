@@ -1,12 +1,6 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Pressable,
-  Image,
-} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
+
 import {normalize, Style} from '../style/Style';
 interface Props {
   navigation: any;
@@ -19,7 +13,18 @@ const CustomBottomTabBar: React.FC<Props> = ({
   navigation,
 }) => {
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View
+      style={{
+        flexDirection: 'row',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+        elevation: 1.5,
+      }}>
       {state.routes.map((route: any, index: number) => {
         const {options} = descriptors[route.key];
         const label =
@@ -50,7 +55,6 @@ const CustomBottomTabBar: React.FC<Props> = ({
             target: route.key,
           });
         };
-
         return (
           <Pressable
             key={index}
@@ -63,9 +67,12 @@ const CustomBottomTabBar: React.FC<Props> = ({
             onPress={onPress}
             onLongPress={onLongPress}
             style={styles.TouchableOpacity}>
+            {isFocused ? route?.params?.FocusIcon() : route?.params?.Icon()}
             <Text
               style={{
                 color: isFocused ? Style.buttonColor : Style.bottomTextColor,
+                fontSize: normalize(12),
+                fontFamily: Style.fontFamily.medium,
               }}>
               {label}
             </Text>

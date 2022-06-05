@@ -7,48 +7,42 @@ import Input from '../components/Input';
 import CustomButton from '../components/CustomButton';
 import {style} from '../../style/Index';
 import {useNavigation} from '@react-navigation/native';
+import {NativeStackType} from '../../types/NavigationType';
+import BackgroundImage from '../components/BackgroundImage';
 
-const ConfirmationCode = () => {
+const Welcome = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <View style={{width: '85%', alignSelf: 'center'}}>
-        <View style={{alignSelf: 'center', marginTop: normalize(50)}}>
-          <SvgXml
-            xml={images.logo}
-            width={normalize(100)}
-            height={normalize(100)}
-          />
-        </View>
-        <View>
-          <Text style={[styles.text, {color: Style.darkColor.borderColor}]}>
-            Confirmation Code
-          </Text>
-          <View style={{marginTop: normalize(15)}}>
-            <Text style={[style.text, {marginLeft: 8}]}>
-              Enter the confirmation code we sent to your@mail.com.
+      <BackgroundImage />
+      <View
+        style={{
+          width: '85%',
+          alignSelf: 'center',
+          flex: 1,
+          justifyContent: 'center',
+        }}>
+        <View style={{marginTop: normalize(60)}}>
+          <View>
+            <Text style={styles.welcome}>WELCOME !</Text>
+          </View>
+          <View>
+            <Text style={styles.find}>
+              Find what{'\n'}you are{'\n'}looking for
             </Text>
           </View>
-          <View style={{marginTop: normalize(15)}}>
-            <Input placeholder="Confirmation Code" />
-          </View>
-          <View style={{marginTop: normalize(15)}}>
-            <Text style={[style.text, {marginLeft: 8}]}>
-              Didn’t receive the code?{' '}
-              <Text
-                style={[
-                  style.text,
-                  {color: Style.orangeColor, fontFamily: Style.fontFamily.bold},
-                ]}>
-                Resend
-              </Text>
+          <View>
+            <Text style={styles.by}>
+              By personalize your account, we can help you to find what you
+              like.
             </Text>
           </View>
+
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
               color={Style.buttonColor}
               textColor={'#fff'}
-              title="Submit"
+              title="Personalize Your Account"
               height={normalize(50)}
             />
           </View>
@@ -57,7 +51,7 @@ const ConfirmationCode = () => {
               onPress={() => navigation.goBack()}
               color={'#fff'}
               textColor={Style.buttonColor}
-              title="Cancel"
+              title="Skip"
               borderColor={Style.buttonColor}
               borderWidth={1}
               height={normalize(50)}
@@ -69,11 +63,26 @@ const ConfirmationCode = () => {
   );
 };
 
-export default ConfirmationCode;
+export default Welcome;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  find: {
+    fontSize: Style.fontSize.xxlarge + 25,
+    fontFamily: Style.fontFamily.thin,
+    color: Style.buttonColor,
+  },
+  welcome: {
+    fontSize: Style.fontSize.small,
+    fontFamily: Style.fontFamily.bold,
+    color: Style.orangeColor,
+  },
+  by: {
+    fontSize: Style.fontSize.small,
+    fontFamily: Style.fontFamily.medium,
+    color: Style.buttonColor,
   },
   text: {
     fontSize: Style.fontSize.medium,

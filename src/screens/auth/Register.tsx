@@ -7,7 +7,6 @@ import Input from '../components/Input';
 import CustomButton from '../components/CustomButton';
 import {style} from '../../style/Index';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackType} from '../../types/NavigationType';
 
 const Register = () => {
   const navigation = useNavigation();

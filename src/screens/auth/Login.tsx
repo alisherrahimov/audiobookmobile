@@ -40,7 +40,10 @@ const Login = () => {
             />
           </View>
           <View style={{marginTop: normalize(15), alignItems: 'flex-end'}}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ForgetPassword');
+              }}>
               <Text style={styles.forgotPassword}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>

@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.8,
   },
   title: {
-    fontFamily: Style.fontFamily.regular,
-    fontSize: Style.fontSize.medium,
+    fontFamily: Style.fontFamily.medium,
+    fontSize: Style.fontSize.small,
     color: '#000',
   },
   absolute: {
