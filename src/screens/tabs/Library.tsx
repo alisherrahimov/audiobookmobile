@@ -1,25 +1,23 @@
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
-import {normalize} from '../../style/Style';
+import {normalize, Style} from '../../style/Style';
 import Input from '../components/Input';
-import NewReleaseCard from '../components/NewReleaseCard';
-import BookCard from '../components/BookCard';
+
+import MyBooksCard from '../components/MyBooksCard';
+import {useNavigation} from '@react-navigation/native';
 
 const Library = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <SvgXml xml={images.logoname} />
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Settings');
+          }}>
           <SvgXml xml={images.setting} />
         </TouchableOpacity>
       </View>
@@ -32,17 +30,16 @@ const Library = () => {
           },
         ]}>
         <View>
-          <Text>Explore</Text>
+          <Text style={styles.explore}>Explore</Text>
         </View>
-        <View>
+        <View style={{marginTop: normalize(10)}}>
           <Input placeholder="Search Books and Author" />
         </View>
-        <View>
-          <Text>Search Results</Text>
-        </View>
+
         <FlatList
-          contentContainerStyle={{alignSelf: 'center'}}
-          numColumns={2}
+          contentContainerStyle={{
+            marginTop: normalize(15),
+          }}
           data={[
             {id: 1, author: 'Laurie Forest', title: 'The Black Witch'},
             {id: 2, author: 'C.J Archer', title: 'The Prisoner’s Key'},
@@ -50,7 +47,9 @@ const Library = () => {
             {id: 4, author: 'Emily R. King', title: 'The Fire Queen'},
           ]}
           keyExtractor={({id}) => id.toString()}
-          renderItem={({index, item}) => <BookCard data={item} index={index} />}
+          renderItem={({index, item}) => (
+            <MyBooksCard data={item} index={index} />
+          )}
         />
       </View>
     </View>
@@ -70,5 +69,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     marginTop: normalize(40),
+  },
+  explore: {
+    fontSize: Style.fontSize.xlarge,
+    fontFamily: Style.fontFamily.bold,
+    color: '#000',
   },
 });

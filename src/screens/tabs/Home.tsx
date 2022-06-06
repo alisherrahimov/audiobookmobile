@@ -13,15 +13,20 @@ import {normalize, Style} from '../../style/Style';
 import RecommendCard from '../components/RecommendCard';
 import BestSellerCard from '../components/BestSellerCard';
 import NewReleaseCard from '../components/NewReleaseCard';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <View style={styles.header}>
             <SvgXml xml={images.logoname} />
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Settings');
+              }}>
               <SvgXml xml={images.setting} />
             </TouchableOpacity>
           </View>

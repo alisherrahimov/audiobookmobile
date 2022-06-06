@@ -22,6 +22,7 @@ import SelectTopic from '../screens/auth/SelectTopic';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../image/intro/images';
 import Books from '../screens/Books';
+import BookDetails from '../screens/BookDetails';
 
 const TabNavigator = createBottomTabNavigator();
 const StackNavigator = createNativeStackNavigator<NavigationType>();
@@ -67,7 +68,11 @@ const Navigation = () => {
     <NavigationContainer theme={color ? darkSchema : lightSchema}>
       <StackNavigator.Navigator
         initialRouteName="BottomTab"
-        screenOptions={{headerShown: false}}>
+        screenOptions={{
+          headerShown: false,
+          gestureEnabled: true,
+          fullScreenGestureEnabled: true,
+        }}>
         <StackNavigator.Screen name="BottomTab" component={BottomTab} />
         <StackNavigator.Screen name="Settings" component={Settings} />
         <StackNavigator.Screen name="User" component={User} />
@@ -78,6 +83,8 @@ const Navigation = () => {
         <StackNavigator.Screen name="Welcome" component={Welcome} />
         <StackNavigator.Screen name="SelectTopic" component={SelectTopic} />
         <StackNavigator.Screen name="Books" component={Books} />
+        <StackNavigator.Screen name="BookDetails" component={BookDetails} />
+
         <StackNavigator.Screen
           name="ConfirmationCode"
           component={ConfirmationCode}

@@ -7,8 +7,15 @@ import {useTheme} from '@react-navigation/native';
 interface Props {
   title: string;
   onPress?: () => void;
+  addButton?: boolean;
+  ButtonPress?: () => void;
 }
-const Header: React.FC<Props> = ({title}) => {
+const Header: React.FC<Props> = ({
+  title,
+  addButton = false,
+  ButtonPress,
+  onPress,
+}) => {
   const {dark} = useTheme();
   return (
     <View
@@ -25,6 +32,7 @@ const Header: React.FC<Props> = ({title}) => {
       ]}>
       <View style={[styles.absolute, {marginLeft: normalize(15)}]}>
         <TouchableOpacity
+          onPress={onPress}
           activeOpacity={0.8}
           style={{
             alignItems: 'center',
@@ -52,6 +60,32 @@ const Header: React.FC<Props> = ({title}) => {
           {title}
         </Text>
       </View>
+      {addButton && (
+        <View
+          style={[
+            {
+              position: 'absolute',
+              justifyContent: 'center',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              marginTop: normalize(25),
+              marginRight: normalize(10),
+            },
+          ]}>
+          <TouchableOpacity
+            onPress={ButtonPress}
+            activeOpacity={0.8}
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: normalize(10),
+              borderRadius: 15,
+            }}>
+            <Text style={styles.author}>Save</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -77,5 +111,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: normalize(25),
+  },
+  author: {
+    fontSize: Style.fontSize.small,
+    fontFamily: Style.fontFamily.medium,
+    color: Style.buttonColor,
   },
 });

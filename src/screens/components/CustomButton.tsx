@@ -6,8 +6,8 @@ interface Props {
   color: string;
   textColor: string;
   onPress?: () => void;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   borderWidth?: number;
   borderColor?: string;
 }

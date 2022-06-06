@@ -15,7 +15,8 @@ const BookCard: React.FC<Props> = ({data, index}) => {
       activeOpacity={0.8}
       key={index}
       style={{
-        margin: 10,
+        marginLeft: index % 2 === 0 ? 0 : normalize(20),
+        marginBottom: normalize(20),
       }}>
       <Image
         style={{width: normalize(135), height: normalize(135)}}
