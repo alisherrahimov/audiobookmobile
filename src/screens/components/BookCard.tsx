@@ -19,7 +19,11 @@ const BookCard: React.FC<Props> = ({data, index}) => {
         marginBottom: normalize(20),
       }}>
       <Image
-        style={{width: normalize(135), height: normalize(135)}}
+        style={{
+          width: normalize(135),
+          height: normalize(135),
+          borderRadius: 10,
+        }}
         source={{
           uri: 'https://img.freepik.com/free-psd/book-mockup-with-shadow-overlay_23-2149209542.jpg?t=st=1654465604~exp=1654466204~hmac=d31c49f64c5ac8c33239cd2f729213e9ba023ebf4eaa7772b3bf53104ba4fd2c&w=740',
         }}

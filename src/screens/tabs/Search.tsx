@@ -14,12 +14,25 @@ import Input from '../components/Input';
 
 import BookCard from '../components/BookCard';
 import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NavigationType} from '../../types/NavigationType';
+import SearchLoading from '../components/SearchLoading';
 
 const Search = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '90%',
+          alignSelf: 'center',
+          alignItems: 'flex-end',
+          height: normalize(80),
+          paddingBottom: 10,
+        }}>
         <SvgXml xml={images.logoname} />
         <TouchableOpacity
           onPress={() => {

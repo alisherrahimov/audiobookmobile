@@ -1,17 +1,14 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {SvgXml} from 'react-native-svg';
-import {images} from '../../image/intro/images';
 import {normalize, Style} from '../../style/Style';
-import Input from '../components/Input';
 import CustomButton from '../components/CustomButton';
-import {style} from '../../style/Index';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackType} from '../../types/NavigationType';
+import {NavigationType} from '../../types/NavigationType';
 import BackgroundImage from '../components/BackgroundImage';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const Welcome = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   return (
     <View style={styles.container}>
       <BackgroundImage />
@@ -40,6 +37,9 @@ const Welcome = () => {
 
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
+              onPress={() => {
+                navigation.navigate('SelectTopic');
+              }}
               color={Style.buttonColor}
               textColor={'#fff'}
               title="Personalize Your Account"
@@ -48,7 +48,9 @@ const Welcome = () => {
           </View>
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
-              onPress={() => navigation.goBack()}
+              onPress={() =>
+                navigation.reset([{routes: 'BottomTab', index: 0}])
+              }
               color={'#fff'}
               textColor={Style.buttonColor}
               title="Skip"

@@ -3,7 +3,9 @@ import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
 import {normalize, Style} from '../../style/Style';
-import {useTheme} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NavigationType} from '../../types/NavigationType';
 interface Props {
   title: string;
   onPress?: () => void;
@@ -16,7 +18,14 @@ const Header: React.FC<Props> = ({
   ButtonPress,
   onPress,
 }) => {
+  const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   const {dark} = useTheme();
+  const checkLength = (title: string) => {
+    if (title.length > 25) {
+      return title.substring(0, 25) + '...';
+    }
+    return title;
+  };
   return (
     <View
       style={[
@@ -32,7 +41,9 @@ const Header: React.FC<Props> = ({
       ]}>
       <View style={[styles.absolute, {marginLeft: normalize(15)}]}>
         <TouchableOpacity
-          onPress={onPress}
+          onPress={() => {
+            navigation.goBack();
+          }}
           activeOpacity={0.8}
           style={{
             alignItems: 'center',
@@ -57,7 +68,7 @@ const Header: React.FC<Props> = ({
                 : Style.lightColor.textColor,
             },
           ]}>
-          {title}
+          {checkLength(title)}
         </Text>
       </View>
       {addButton && (

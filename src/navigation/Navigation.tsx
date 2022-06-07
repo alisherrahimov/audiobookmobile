@@ -33,7 +33,7 @@ const BottomTab = () => {
       screenOptions={{headerShown: false}}>
       <TabNavigator.Screen
         name="Home"
-        component={Home}
+        component={HomeStackNavigator}
         options={{tabBarLabel: 'Home'}}
         initialParams={{
           Icon: () => <SvgXml xml={images.home('gray')} />,
@@ -42,7 +42,7 @@ const BottomTab = () => {
       />
       <TabNavigator.Screen
         name="Search"
-        component={Search}
+        component={SearchStackNavigator}
         options={{tabBarLabel: 'Search'}}
         initialParams={{
           Icon: () => <SvgXml xml={images.search('gray')} />,
@@ -51,7 +51,7 @@ const BottomTab = () => {
       />
       <TabNavigator.Screen
         name="Library"
-        component={Library}
+        component={LibraryStackNavigator}
         options={{tabBarLabel: 'Library'}}
         initialParams={{
           Icon: () => <SvgXml xml={images.library('gray')} />,
@@ -62,38 +62,86 @@ const BottomTab = () => {
   );
 };
 
+const HomeStackNavigator = () => {
+  return (
+    <StackNavigator.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName="Home">
+      <StackNavigator.Screen name="Home" component={Home} />
+      <StackNavigator.Screen name="Books" component={Books} />
+      <StackNavigator.Screen name="BookDetails" component={BookDetails} />
+      <StackNavigator.Screen name="Settings" component={Settings} />
+      <StackNavigator.Screen name="User" component={User} />
+      <StackNavigator.Screen name="Error" component={Error} />
+    </StackNavigator.Navigator>
+  );
+};
+const SearchStackNavigator = () => {
+  return (
+    <StackNavigator.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName="Search">
+      <StackNavigator.Screen name="Search" component={Search} />
+      <StackNavigator.Screen name="Books" component={Books} />
+      <StackNavigator.Screen name="BookDetails" component={BookDetails} />
+      <StackNavigator.Screen name="Settings" component={Settings} />
+      <StackNavigator.Screen name="User" component={User} />
+      <StackNavigator.Screen name="Error" component={Error} />
+    </StackNavigator.Navigator>
+  );
+};
+const LibraryStackNavigator = () => {
+  return (
+    <StackNavigator.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName="Library">
+      <StackNavigator.Screen name="Library" component={Library} />
+      <StackNavigator.Screen name="Books" component={Books} />
+      <StackNavigator.Screen name="BookDetails" component={BookDetails} />
+      <StackNavigator.Screen name="Settings" component={Settings} />
+      <StackNavigator.Screen name="User" component={User} />
+      <StackNavigator.Screen name="Error" component={Error} />
+    </StackNavigator.Navigator>
+  );
+};
+const AuthStackNavigator = () => {
+  return (
+    <StackNavigator.Navigator
+      initialRouteName="Enter"
+      screenOptions={{headerShown: false}}>
+      <StackNavigator.Screen name="Enter" component={Enter} />
+      <StackNavigator.Screen name="Login" component={Login} />
+      <StackNavigator.Screen name="Register" component={Register} />
+      <StackNavigator.Screen
+        name="ConfirmationCode"
+        component={ConfirmationCode}
+      />
+      <StackNavigator.Screen name="ForgetPassword" component={ForgetPassword} />
+      <StackNavigator.Screen name="Welcome" component={Welcome} />
+      <StackNavigator.Screen name="SelectTopic" component={SelectTopic} />
+      <StackNavigator.Screen name="Error" component={Error} />
+    </StackNavigator.Navigator>
+  );
+};
+
+const AppNavigator = () => {
+  return (
+    <StackNavigator.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName="BottomTab">
+      <StackNavigator.Screen
+        name="AuthNavigator"
+        component={AuthStackNavigator}
+      />
+      <StackNavigator.Screen name="BottomTab" component={BottomTab} />
+    </StackNavigator.Navigator>
+  );
+};
 const Navigation = () => {
   const color = useColorScheme() === 'dark';
   return (
     <NavigationContainer theme={color ? darkSchema : lightSchema}>
-      <StackNavigator.Navigator
-        initialRouteName="BottomTab"
-        screenOptions={{
-          headerShown: false,
-          gestureEnabled: true,
-          fullScreenGestureEnabled: true,
-        }}>
-        <StackNavigator.Screen name="BottomTab" component={BottomTab} />
-        <StackNavigator.Screen name="Settings" component={Settings} />
-        <StackNavigator.Screen name="User" component={User} />
-        <StackNavigator.Screen name="Enter" component={Enter} />
-        <StackNavigator.Screen name="Error" component={Error} />
-        <StackNavigator.Screen name="Login" component={Login} />
-        <StackNavigator.Screen name="Register" component={Register} />
-        <StackNavigator.Screen name="Welcome" component={Welcome} />
-        <StackNavigator.Screen name="SelectTopic" component={SelectTopic} />
-        <StackNavigator.Screen name="Books" component={Books} />
-        <StackNavigator.Screen name="BookDetails" component={BookDetails} />
-
-        <StackNavigator.Screen
-          name="ConfirmationCode"
-          component={ConfirmationCode}
-        />
-        <StackNavigator.Screen
-          name="ForgetPassword"
-          component={ForgetPassword}
-        />
-      </StackNavigator.Navigator>
+      <AppNavigator />
     </NavigationContainer>
   );
 };

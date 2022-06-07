@@ -4,9 +4,11 @@ import Header from './components/Header';
 import {normalize, Style} from '../style/Style';
 import CustomButton from './components/CustomButton';
 import {useNavigation} from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { NavigationType } from '../types/NavigationType';
 
 const Settings = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   return (
     <View style={styles.container}>
       <Header

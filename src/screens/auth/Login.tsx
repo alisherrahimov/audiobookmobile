@@ -7,10 +7,11 @@ import Input from '../components/Input';
 import CustomButton from '../components/CustomButton';
 import {style} from '../../style/Index';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackType} from '../../types/NavigationType';
+import {NavigationType} from '../../types/NavigationType';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const Login = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   return (
     <View style={styles.container}>
       <View style={{width: '85%', alignSelf: 'center'}}>
@@ -33,6 +34,9 @@ const Login = () => {
           </View>
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
+              onPress={() => {
+                navigation.navigate('BottomTab');
+              }}
               color={Style.buttonColor}
               textColor={'#fff'}
               title="Login"

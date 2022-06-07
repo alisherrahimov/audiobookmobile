@@ -5,9 +5,11 @@ import {useNavigation} from '@react-navigation/native';
 import {normalize, Style} from '../style/Style';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../image/intro/images';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NavigationType} from '../types/NavigationType';
 
 const User = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   return (
     <View style={styles.container}>
       <Header

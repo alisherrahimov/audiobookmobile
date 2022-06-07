@@ -2,12 +2,14 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {normalize} from '../../style/Style';
 import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NavigationType} from '../../types/NavigationType';
 interface Props {
-  item: number;
+  item?: {id?: string; image?: string} | undefined;
   index: number;
 }
 const RecommendCard: React.FC<Props> = ({index, item}) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -31,5 +33,6 @@ const styles = StyleSheet.create({
     width: normalize(160),
     height: normalize(220),
     backgroundColor: '#F5F5FA',
+    borderRadius: 10,
   },
 });

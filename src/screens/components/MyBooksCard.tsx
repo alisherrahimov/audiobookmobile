@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     width: normalize(80),
     height: normalize(80),
     resizeMode: 'cover',
+    borderRadius: 10,
   },
   title: {
     fontSize: Style.fontSize.small,

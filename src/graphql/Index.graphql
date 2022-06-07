@@ -1,0 +1,26 @@
+query getHome {
+  home {
+    bestseller {
+      image
+      id
+      title
+    }
+    new_release {
+      image
+      id
+      title
+    }
+    recommended {
+      image
+      id
+    }
+    trend {
+      image
+      id
+      title
+    }
+  }
+  categories {
+    name
+  }
+}

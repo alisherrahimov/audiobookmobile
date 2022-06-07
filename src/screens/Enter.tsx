@@ -1,4 +1,5 @@
 import {
+  Animated,
   FlatList,
   SafeAreaView,
   StyleSheet,
@@ -7,12 +8,15 @@ import {
   TouchableOpacityBase,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useRef} from 'react';
 import BackgroundImage from './components/BackgroundImage';
 import {images} from '../image/intro/images';
 import {SvgXml} from 'react-native-svg';
 import {normalize, Style} from '../style/Style';
 import CustomButton from './components/CustomButton';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NavigationType} from '../types/NavigationType';
 const data: {title: string; desc: string; image: string}[] = [
   {
     title: 'Title one',
@@ -30,7 +34,13 @@ const data: {title: string; desc: string; image: string}[] = [
     image: images.thrid,
   },
 ];
+const ReViewCardSize = Style.width - 45;
 const Enter = () => {
+  const scrollRef = useRef<FlatList>(null);
+  const [index, setIndex] = React.useState(0);
+  const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
+  const scrollX = new Animated.Value(0);
+  let position = Animated.divide(scrollX, ReViewCardSize);
   const RenderItem = ({
     item,
   }: {
@@ -63,6 +73,11 @@ const Enter = () => {
           marginTop: normalize(200),
         }}>
         <FlatList
+          ref={scrollRef}
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {x: scrollX}}}],
+            {useNativeDriver: false},
+          )}
           horizontal
           showsHorizontalScrollIndicator={false}
           pagingEnabled
@@ -81,28 +96,36 @@ const Enter = () => {
         }}>
         <View
           style={{
-            width: 10,
-            height: 10,
-            backgroundColor: Style.buttonColor,
-            borderRadius: 25,
-          }}
-        />
-        <View
-          style={{
-            width: 10,
-            height: 10,
-            backgroundColor: Style.buttonColor,
-            borderRadius: 25,
-          }}
-        />
-        <View
-          style={{
-            width: 10,
-            height: 10,
-            backgroundColor: Style.buttonColor,
-            borderRadius: 25,
-          }}
-        />
+            position: 'absolute',
+            alignSelf: 'flex-end',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            justifyContent: 'center',
+            flexDirection: 'row',
+          }}>
+          {data.map((_, i) => {
+            let opacity = position.interpolate({
+              inputRange: [i - 1, i, i + 1],
+              outputRange: [0.3, 1, 0.3],
+              extrapolate: 'clamp',
+            });
+
+            return (
+              <Animated.View
+                key={i}
+                style={{
+                  opacity,
+                  height: 12,
+                  width: 12,
+                  backgroundColor: Style.buttonColor,
+                  margin: 5,
+                  borderRadius: 20,
+                }}
+              />
+            );
+          })}
+        </View>
       </View>
       <View
         style={{
@@ -115,15 +138,29 @@ const Enter = () => {
         }}>
         <View>
           <CustomButton
+            onPress={() => {
+              navigation.navigate('Login');
+            }}
             textColor={Style.buttonColor}
             color={'#fff'}
-            title="Next"
+            title="Skip"
             width={normalize(120)}
             height={normalize(50)}
           />
         </View>
         <View>
           <CustomButton
+            onPress={() => {
+              if (index < 3) {
+                scrollRef.current?.scrollToIndex({
+                  index: index,
+                  animated: true,
+                });
+                setIndex(index + 1);
+              } else {
+                setIndex(0);
+              }
+            }}
             textColor="#fff"
             color={Style.buttonColor}
             title="Next"

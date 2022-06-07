@@ -2,11 +2,16 @@ import {FlatList, StyleSheet, View} from 'react-native';
 import React from 'react';
 import Header from './components/Header';
 import BookCard from './components/BookCard';
+import {useRoute} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeTabScreenProps, NavigationType} from '../types/NavigationType';
 
 const Books = () => {
+  const route = useRoute<HomeTabScreenProps<'Books'>['route']>();
+  const {title} = route.params;
   return (
     <View style={styles.container}>
-      <Header title="New Release" />
+      <Header title={title} />
       <FlatList
         contentContainerStyle={{alignSelf: 'center'}}
         numColumns={2}

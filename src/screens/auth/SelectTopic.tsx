@@ -1,19 +1,23 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
 import {normalize, Style} from '../../style/Style';
 import Input from '../components/Input';
 import CustomButton from '../components/CustomButton';
-import {style} from '../../style/Index';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackType} from '../../types/NavigationType';
+import {NavigationType} from '../../types/NavigationType';
 import BackgroundImage from '../components/BackgroundImage';
-
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import SelectButton from '../components/SelectButton';
+interface Props {
+  navigation: NativeStackNavigationProp<NavigationType>;
+}
 const SelectTopic = () => {
-  const navigation = useNavigation();
-  if (true) {
-    return <Ready />;
+  const [topic, setTopic] = useState<boolean>(false);
+  const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
+  if (topic) {
+    return <Ready navigation={navigation} />;
   }
   return (
     <View style={styles.container}>
@@ -41,6 +45,19 @@ const SelectTopic = () => {
           <View style={{marginTop: 20, marginBottom: 20}}>
             <Input placeholder="Search Categories" />
           </View>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+            {[
+              {id: 1, title: 'Drama'},
+              {id: 2, title: 'Art'},
+              {id: 3, title: 'Business'},
+              {id: 4, title: 'Biography'},
+              {id: 5, title: 'Comedy'},
+              {id: 6, title: 'Culture'},
+              {id: 7, title: 'Education'},
+            ].map((item, index: number) => {
+              return <SelectButton categories={item} index={index} />;
+            })}
+          </View>
           <View>
             <Text style={styles.by}>
               By personalize your account, we can help you to find what you
@@ -50,6 +67,9 @@ const SelectTopic = () => {
 
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
+              onPress={() => {
+                setTopic(true);
+              }}
               color={Style.buttonColor}
               textColor={'#fff'}
               title="Submit"
@@ -73,7 +93,7 @@ const SelectTopic = () => {
   );
 };
 
-const Ready = () => {
+const Ready: React.FC<Props> = ({navigation}) => {
   return (
     <View
       style={[
@@ -114,6 +134,9 @@ const Ready = () => {
         </View>
         <View style={{marginTop: normalize(15), width: '100%'}}>
           <CustomButton
+            onPress={() => {
+              navigation.navigate('BottomTab');
+            }}
             color={Style.buttonColor}
             textColor={'#fff'}
             title="Submit"

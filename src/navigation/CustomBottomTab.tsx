@@ -24,6 +24,7 @@ const CustomBottomTabBar: React.FC<Props> = ({
         shadowOpacity: 0.3,
         shadowRadius: 10,
         elevation: 1.5,
+        backgroundColor: '#fff',
       }}>
       {state.routes.map((route: any, index: number) => {
         const {options} = descriptors[route.key];
