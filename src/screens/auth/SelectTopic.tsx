@@ -5,19 +5,21 @@ import {images} from '../../image/intro/images';
 import {normalize, Style} from '../../style/Style';
 import Input from '../components/Input';
 import CustomButton from '../components/CustomButton';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {NavigationType} from '../../types/NavigationType';
 import BackgroundImage from '../components/BackgroundImage';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import SelectButton from '../components/SelectButton';
 interface Props {
   navigation: NativeStackNavigationProp<NavigationType>;
+  dark: boolean;
 }
 const SelectTopic = () => {
+  const {dark} = useTheme();
   const [topic, setTopic] = useState<boolean>(false);
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   if (topic) {
-    return <Ready navigation={navigation} />;
+    return <Ready navigation={navigation} dark={dark} />;
   }
   return (
     <View style={styles.container}>
@@ -31,12 +33,28 @@ const SelectTopic = () => {
         }}>
         <View style={{marginTop: normalize(70)}}>
           <View>
-            <Text style={styles.welcome}>Personalize Suggestion</Text>
+            <Text
+              style={[
+                styles.welcome,
+                {color: dark ? '#fff' : Style.darkColor.borderColor},
+              ]}>
+              Personalize Suggestion
+            </Text>
           </View>
           <View>
-            <Text style={styles.by}>
+            <Text
+              style={[
+                styles.by,
+                {color: dark ? '#fff' : Style.darkColor.borderColor},
+              ]}>
               Choose{' '}
-              <Text style={{fontFamily: Style.fontFamily.bold}}>
+              <Text
+                style={[
+                  {
+                    fontFamily: Style.fontFamily.bold,
+                    color: dark ? '#fff' : Style.darkColor.borderColor,
+                  },
+                ]}>
                 min. 3 topic
               </Text>{' '}
               you like, we will give you more often that relate to it.
@@ -59,7 +77,11 @@ const SelectTopic = () => {
             })}
           </View>
           <View>
-            <Text style={styles.by}>
+            <Text
+              style={[
+                styles.by,
+                {color: dark ? '#fff' : Style.darkColor.borderColor},
+              ]}>
               By personalize your account, we can help you to find what you
               like.
             </Text>
@@ -79,10 +101,10 @@ const SelectTopic = () => {
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
               onPress={() => navigation.goBack()}
-              color={'#fff'}
-              textColor={Style.buttonColor}
+              color={dark ? Style.darkTextInputColor : '#fff'}
+              textColor={dark ? '#fff' : Style.buttonColor}
               title="Skip"
-              borderColor={Style.buttonColor}
+              borderColor={dark ? '#fff' : Style.buttonColor}
               borderWidth={1}
               height={normalize(50)}
             />
@@ -93,7 +115,7 @@ const SelectTopic = () => {
   );
 };
 
-const Ready: React.FC<Props> = ({navigation}) => {
+const Ready: React.FC<Props> = ({navigation, dark}) => {
   return (
     <View
       style={[
@@ -101,7 +123,7 @@ const Ready: React.FC<Props> = ({navigation}) => {
         {
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#fff',
+          backgroundColor: dark ? Style.darkBackgroundColor : '#f5f5f5',
         },
       ]}>
       <View
@@ -117,7 +139,11 @@ const Ready: React.FC<Props> = ({navigation}) => {
           <Text
             style={[
               styles.by,
-              {textAlign: 'center', fontFamily: Style.fontFamily.bold},
+              {
+                textAlign: 'center',
+                fontFamily: Style.fontFamily.bold,
+                color: dark ? '#fff' : Style.darkColor.borderColor,
+              },
             ]}>
             You are ready to go!
           </Text>
@@ -126,7 +152,11 @@ const Ready: React.FC<Props> = ({navigation}) => {
           <Text
             style={[
               styles.by,
-              {textAlign: 'center', fontFamily: Style.fontFamily.light},
+              {
+                textAlign: 'center',
+                fontFamily: Style.fontFamily.light,
+                color: dark ? '#fff' : Style.darkColor.borderColor,
+              },
             ]}>
             Congratulation, any interesting topics will be shortly in your
             hands.

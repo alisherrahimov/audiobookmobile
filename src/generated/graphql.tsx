@@ -31,6 +31,8 @@ export type Mutation = {
   createCategory?: Maybe<Category>;
   createReview?: Maybe<Review>;
   createUser?: Maybe<User>;
+  forgetPassword?: Maybe<Scalars['Boolean']>;
+  getBookByCategory?: Maybe<Array<Maybe<Book>>>;
   interest?: Maybe<Scalars['Boolean']>;
   login?: Maybe<Scalars['String']>;
   myBooks?: Maybe<Array<Maybe<Book>>>;
@@ -56,7 +58,6 @@ export type MutationCreateBookArgs = {
 
 
 export type MutationCreateCategoryArgs = {
-  image: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -70,6 +71,16 @@ export type MutationCreateReviewArgs = {
 
 export type MutationCreateUserArgs = {
   input?: InputMaybe<UserInput>;
+};
+
+
+export type MutationForgetPasswordArgs = {
+  input?: InputMaybe<ForgetPassword>;
+};
+
+
+export type MutationGetBookByCategoryArgs = {
+  input?: InputMaybe<GetByCategory>;
 };
 
 
@@ -169,8 +180,8 @@ export type BookInput = {
   audio_link?: InputMaybe<Scalars['String']>;
   author?: InputMaybe<Scalars['String']>;
   book_link?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
   image?: InputMaybe<Scalars['String']>;
   page?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
@@ -184,7 +195,6 @@ export type Category = {
   __typename?: 'category';
   createdAt?: Maybe<Scalars['Date']>;
   id?: Maybe<Scalars['ID']>;
-  image?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Date']>;
 };
@@ -192,6 +202,14 @@ export type Category = {
 export type CheckCode = {
   code?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
+};
+
+export type ForgetPassword = {
+  email?: InputMaybe<Scalars['String']>;
+};
+
+export type GetByCategory = {
+  id?: InputMaybe<Scalars['String']>;
 };
 
 export type Home = {
@@ -263,6 +281,13 @@ export type GetHomeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetHomeQuery = { __typename?: 'Query', home?: { __typename?: 'home', bestseller?: Array<{ __typename?: 'book', image?: string | null, id?: string | null, title?: string | null } | null> | null, new_release?: Array<{ __typename?: 'book', image?: string | null, id?: string | null, title?: string | null } | null> | null, recommended?: Array<{ __typename?: 'book', image?: string | null, id?: string | null } | null> | null, trend?: Array<{ __typename?: 'book', image?: string | null, id?: string | null, title?: string | null } | null> | null } | null, categories?: Array<{ __typename?: 'category', name?: string | null } | null> | null };
 
+export type LoginMutationVariables = Exact<{
+  input: Login;
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login?: string | null };
+
 
 export const GetHomeDocument = gql`
     query getHome {
@@ -319,3 +344,34 @@ export function useGetHomeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetHomeQueryHookResult = ReturnType<typeof useGetHomeQuery>;
 export type GetHomeLazyQueryHookResult = ReturnType<typeof useGetHomeLazyQuery>;
 export type GetHomeQueryResult = Apollo.QueryResult<GetHomeQuery, GetHomeQueryVariables>;
+export const LoginDocument = gql`
+    mutation Login($input: login!) {
+  login(input: $input)
+}
+    `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;

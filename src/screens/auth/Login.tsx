@@ -6,14 +6,23 @@ import {normalize, Style} from '../../style/Style';
 import Input from '../components/Input';
 import CustomButton from '../components/CustomButton';
 import {style} from '../../style/Index';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {NavigationType} from '../../types/NavigationType';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const Login = () => {
+  const {dark} = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
+
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: dark ? Style.darkBackgroundColor : '#fff'},
+      ]}>
       <View style={{width: '85%', alignSelf: 'center'}}>
         <View style={{alignSelf: 'center', marginTop: normalize(50)}}>
           <SvgXml
@@ -23,14 +32,18 @@ const Login = () => {
           />
         </View>
         <View>
-          <Text style={[styles.text, {color: Style.darkColor.borderColor}]}>
+          <Text
+            style={[
+              styles.text,
+              {color: dark ? '#fff' : Style.darkColor.borderColor},
+            ]}>
             Login to Your Account
           </Text>
           <View style={{marginTop: normalize(15)}}>
             <Input placeholder="Email" />
           </View>
           <View style={{marginTop: normalize(15)}}>
-            <Input placeholder="Password" />
+            <Input placeholder="Password" secureTextEntry={true} />
           </View>
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
@@ -53,7 +66,11 @@ const Login = () => {
           </View>
         </View>
         <View style={{marginTop: normalize(25), alignSelf: 'center'}}>
-          <Text style={[style.text, {color: Style.darkColor.borderColor}]}>
+          <Text
+            style={[
+              style.text,
+              {color: dark ? '#fff' : Style.darkColor.borderColor},
+            ]}>
             Or login with
           </Text>
         </View>
@@ -69,21 +86,36 @@ const Login = () => {
               alignItems: 'center',
               justifyContent: 'space-around',
             }}>
-            <TouchableOpacity activeOpacity={0.8} style={styles.touch}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={[
+                styles.touch,
+                {backgroundColor: dark ? Style.darkBackgroundColor : '#f5f5f5'},
+              ]}>
               <SvgXml
                 xml={images.google}
                 width={normalize(30)}
                 height={normalize(30)}
               />
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.8} style={styles.touch}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={[
+                styles.touch,
+                {backgroundColor: dark ? Style.darkBackgroundColor : '#f5f5f5'},
+              ]}>
               <SvgXml
                 xml={images.facebook}
                 width={normalize(30)}
                 height={normalize(30)}
               />
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.8} style={styles.touch}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={[
+                styles.touch,
+                {backgroundColor: dark ? Style.darkBackgroundColor : '#f5f5f5'},
+              ]}>
               <SvgXml
                 xml={images.twitter}
                 width={normalize(30)}
@@ -98,7 +130,11 @@ const Login = () => {
             alignSelf: 'center',
             flexDirection: 'row',
           }}>
-          <Text style={[style.text, {color: Style.darkColor.borderColor}]}>
+          <Text
+            style={[
+              style.text,
+              {color: dark ? '#fff' : Style.darkColor.borderColor},
+            ]}>
             Don't have an account?
           </Text>
           <TouchableOpacity

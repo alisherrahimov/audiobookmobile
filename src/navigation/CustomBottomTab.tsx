@@ -1,7 +1,8 @@
+import {useTheme} from '@react-navigation/native';
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
-import {normalize, Style} from '../style/Style';
+import {AppTheme, normalize, Style} from '../style/Style';
 interface Props {
   navigation: any;
   state: any;
@@ -12,6 +13,8 @@ const CustomBottomTabBar: React.FC<Props> = ({
   descriptors,
   navigation,
 }) => {
+  const {dark, colors} = useTheme() as AppTheme;
+
   return (
     <View
       style={{
@@ -59,7 +62,11 @@ const CustomBottomTabBar: React.FC<Props> = ({
         return (
           <Pressable
             key={index}
-            android_ripple={{color: Style.buttonColor, borderless: true}}
+            android_ripple={{
+              color: Style.buttonColor,
+              borderless: true,
+              radius: normalize(50),
+            }}
             hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
             accessibilityRole="button"
             accessibilityState={isFocused ? {selected: true} : {}}
@@ -67,7 +74,10 @@ const CustomBottomTabBar: React.FC<Props> = ({
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={styles.TouchableOpacity}>
+            style={[
+              styles.TouchableOpacity,
+              {backgroundColor: dark ? Style.darkBackgroundColor : '#fff'},
+            ]}>
             {isFocused ? route?.params?.FocusIcon() : route?.params?.Icon()}
             <Text
               style={{
@@ -89,14 +99,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: Style.bottomTabHeight,
-    shadowRadius: 2,
-    shadowOffset: {
-      width: 0,
-      height: -3,
-    },
-    shadowColor: '#000000',
-    elevation: 4,
-    shadowOpacity: 1,
   },
 });
 

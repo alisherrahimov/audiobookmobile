@@ -6,14 +6,19 @@ import {normalize, Style} from '../../style/Style';
 import Input from '../components/Input';
 import CustomButton from '../components/CustomButton';
 import {style} from '../../style/Index';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 
 const Register = () => {
+  const {dark} = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: dark ? Style.darkBackgroundColor : '#fff'},
+      ]}>
       <View style={{width: '85%', alignSelf: 'center'}}>
         <View style={{alignSelf: 'center', marginTop: normalize(50)}}>
           <SvgXml
@@ -23,7 +28,11 @@ const Register = () => {
           />
         </View>
         <View>
-          <Text style={[styles.text, {color: Style.darkColor.borderColor}]}>
+          <Text
+            style={[
+              styles.text,
+              {color: dark ? '#fff' : Style.darkColor.borderColor},
+            ]}>
             Register
           </Text>
           <View style={{marginTop: normalize(15)}}>
@@ -36,15 +45,25 @@ const Register = () => {
             <Input placeholder="Date of Birth" />
           </View>
           <View style={{marginTop: normalize(15)}}>
-            <Text style={[style.text, {marginLeft: 8}]}>
+            <Text
+              style={[
+                style.text,
+                {
+                  marginLeft: 8,
+                  color: dark ? '#fff' : Style.darkColor.borderColor,
+                },
+              ]}>
               By signing up, you agree to our{' '}
               <Text
                 style={[
                   style.text,
-                  {color: Style.orangeColor, fontFamily: Style.fontFamily.bold},
+                  {
+                    color: Style.orangeColor,
+                    fontFamily: Style.fontFamily.bold,
+                  },
                 ]}>
-                Terms, Data Policy
-              </Text>{' '}
+                Terms, Data Policy{' '}
+              </Text>
               and{' '}
               <Text
                 style={[
@@ -70,10 +89,10 @@ const Register = () => {
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
               onPress={() => navigation.goBack()}
-              color={'#fff'}
-              textColor={Style.buttonColor}
+              color={dark ? Style.darkTextInputColor : '#fff'}
+              textColor={dark ? '#fff' : Style.buttonColor}
               title="Cancel"
-              borderColor={Style.buttonColor}
+              borderColor={dark ? '#fff' : Style.buttonColor}
               borderWidth={1}
               height={normalize(50)}
             />

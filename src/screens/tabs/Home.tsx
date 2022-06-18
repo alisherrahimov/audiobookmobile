@@ -1,4 +1,5 @@
 import {
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -21,14 +22,13 @@ import {useGetHomeQuery} from '../../generated/graphql';
 
 const Home = () => {
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
-  const {data, loading, error} = useGetHomeQuery();
+  const {data, loading, error, refetch} = useGetHomeQuery();
   if (loading) {
     return <LoadingHome />;
   }
   if (error) {
     return <Text>error</Text>;
   }
-  console.log(data);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,7 +50,16 @@ const Home = () => {
           <SvgXml xml={images.setting} />
         </TouchableOpacity>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        // refreshControl={
+        //   <RefreshControl
+        //     refreshing={true}
+        //     onRefresh={() => {
+        //       console.log('red');
+        //     }}
+        //   />
+        // }
+        showsVerticalScrollIndicator={false}>
         <View>
           <View style={styles.header}>
             <Text style={styles.title}>Categories</Text>
@@ -73,7 +82,7 @@ const Home = () => {
               </ScrollView>
             </View>
           </View>
-          <View style={[styles.header, {marginTop: normalize(20)}]}>
+          <View style={[styles.header, {marginTop: normalize(10)}]}>
             <Text style={styles.title}>Recommended For You</Text>
             <TouchableOpacity
               onPress={() => {

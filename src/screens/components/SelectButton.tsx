@@ -1,6 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {normalize, Style} from '../../style/Style';
+import {useTheme} from '@react-navigation/native';
 interface Props {
   categories: {
     id: number;
@@ -9,6 +10,7 @@ interface Props {
   index: number;
 }
 const SelectButton: React.FC<Props> = ({categories, index}) => {
+  const {dark} = useTheme();
   const [check, setCheck] = useState(false);
   const [data, setData] = useState<{id: number | undefined}[]>();
   return (
@@ -19,8 +21,18 @@ const SelectButton: React.FC<Props> = ({categories, index}) => {
           styles.container,
           {
             borderWidth: 1,
-            borderColor: Style.buttonColor,
-            backgroundColor: check ? Style.buttonColor : '#fff',
+            borderColor: dark
+              ? check
+                ? Style.buttonColor
+                : '#fff'
+              : Style.darkColor.borderColor,
+            backgroundColor: dark
+              ? check
+                ? Style.buttonColor
+                : Style.darkBackgroundColor
+              : check
+              ? Style.buttonColor
+              : '#fff',
             marginLeft: index == 0 ? 0 : 5,
             marginTop: 5,
           },
@@ -29,7 +41,10 @@ const SelectButton: React.FC<Props> = ({categories, index}) => {
           setCheck(!check);
         }}>
         <Text
-          style={[styles.title, {color: check ? '#fff' : Style.buttonColor}]}>
+          style={[
+            styles.title,
+            {color: dark ? '#fff' : check ? '#fff' : Style.buttonColor},
+          ]}>
           {categories.title}
         </Text>
       </TouchableOpacity>

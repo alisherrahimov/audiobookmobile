@@ -5,10 +5,10 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 interface Props {
-  item?: {id?: string; image?: string} | undefined;
+  item?: {id: string; image: string} | undefined;
   index: number;
 }
-const RecommendCard: React.FC<Props> = ({index, item}) => {
+const RecommendCard: React.FC<Props> = ({index, item, children}) => {
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   return (
     <TouchableOpacity

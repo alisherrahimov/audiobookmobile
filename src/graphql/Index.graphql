@@ -24,3 +24,6 @@ query getHome {
     name
   }
 }
+mutation Login($input: login!) {
+  login(input: $input)
+}

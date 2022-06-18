@@ -1,6 +1,7 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
 import {normalize, Style} from '../../style/Style';
+import {useTheme} from '@react-navigation/native';
 interface Props {
   placeholder: string;
   secureTextEntry?: false | boolean;
@@ -11,13 +12,20 @@ const Input: React.FC<Props> = ({
   placeHolderColor,
   placeholder,
 }) => {
+  const {dark} = useTheme();
   return (
     <View>
       <TextInput
         selectionColor={Style.buttonColor}
         placeholder={placeholder}
         placeholderTextColor={placeHolderColor || Style.placeholderColor}
-        style={styles.input}
+        style={[
+          styles.input,
+          {
+            backgroundColor: dark ? Style.darkTextInputColor : '#F5F5FA',
+            color: dark ? '#fff' : Style.darkColor.borderColor,
+          },
+        ]}
         secureTextEntry={secureTextEntry}
       />
     </View>
@@ -34,6 +42,5 @@ const styles = StyleSheet.create({
     paddingLeft: normalize(10),
     fontSize: Style.fontSize.small,
     fontFamily: Style.fontFamily.medium,
-    backgroundColor: '#F5F5FA',
   },
 });

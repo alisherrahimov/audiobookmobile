@@ -2,6 +2,7 @@ import {PixelRatio, Platform, Dimensions} from 'react-native';
 import {Theme} from '@react-navigation/native';
 const {width, height} = Dimensions.get('window');
 const scale = width / 320;
+
 export const normalize = (size: number) => {
   const newSize = size * scale;
   if (Platform.OS === 'ios') {
@@ -34,6 +35,8 @@ export const Style = {
     bottomTextColor: '#6A6A8B',
     backgroundColor: '#fff',
     borderColor: '#F3F1FE',
+    ActiveBottomTabIconColor: '#4838D1',
+    inActiveBottomTabIconColor: '#BBB1FA',
   },
   darkColor: {
     primary: '#000',
@@ -41,6 +44,8 @@ export const Style = {
     bottomTextColor: '#6A6A8B',
     backgroundColor: '#0F0F29',
     borderColor: '#2E2E5D',
+    ActiveBottomTabIconColor: '#fff',
+    inActiveBottomTabIconColor: '#BBB1FA',
   },
   bottomTabHeight: normalize(60),
   buttonColor: '#4838D1',
@@ -50,23 +55,36 @@ export const Style = {
   width: width,
   height: height,
   placeholderColor: '#B8B8C7',
-
+  darkBackgroundColor: '#0F0F29',
+  darkTextInputColor: '#1C1C4D',
   orangeColor: '#F77A55',
 };
+export interface AppTheme extends Theme {
+  colors: {
+    background: string;
+    text: string;
+    border: string;
+    primary: string;
+    secondary: string;
+    card: string;
+    notification: string;
+  };
+}
 
-export const darkSchema: Theme = {
+export const darkSchema: AppTheme = {
   dark: true,
   colors: {
-    background: Style.darkColor.primary,
+    background: '#0F0F29',
     border: Style.darkColor.primary,
     card: Style.darkColor.primary,
     text: Style.darkColor.textColor,
     primary: Style.darkColor.primary,
     notification: Style.darkColor.primary,
+    secondary: Style.darkColor.primary,
   },
 };
 
-export const lightSchema: Theme = {
+export const lightSchema: AppTheme = {
   dark: false,
   colors: {
     background: Style.lightColor.primary,
@@ -75,5 +93,6 @@ export const lightSchema: Theme = {
     text: Style.lightColor.textColor,
     primary: Style.lightColor.primary,
     notification: Style.lightColor.primary,
+    secondary: Style.darkColor.primary,
   },
 };
