@@ -10,28 +10,24 @@ import {
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
-import {normalize, Style} from '../../style/Style';
+import {AppTheme, normalize, Style} from '../../style/Style';
 import RecommendCard from '../components/RecommendCard';
 import BestSellerCard from '../components/BestSellerCard';
 import NewReleaseCard from '../components/NewReleaseCard';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 import LoadingHome from '../components/LoadingHome';
 import {useGetHomeQuery} from '../../generated/graphql';
 
 const Home = () => {
+  const {dark, colors} = useTheme() as AppTheme;
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   const {data, loading, error, refetch} = useGetHomeQuery();
-  if (loading) {
-    return <LoadingHome />;
-  }
-  if (error) {
-    return <Text>error</Text>;
-  }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, {backgroundColor: colors.background}]}>
       <View
         style={{
           flexDirection: 'row',
@@ -42,29 +38,34 @@ const Home = () => {
           height: normalize(80),
           paddingBottom: 10,
         }}>
-        <SvgXml xml={images.logoname} />
+        <SvgXml
+          xml={
+            dark
+              ? images.logoname('#fff')
+              : images.logoname(colors.buttonBorderColor)
+          }
+        />
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Settings');
           }}>
-          <SvgXml xml={images.setting} />
+          <SvgXml
+            xml={
+              dark
+                ? images.setting('#fff')
+                : images.setting(colors.buttonBorderColor)
+            }
+          />
         </TouchableOpacity>
       </View>
-      <ScrollView
-        // refreshControl={
-        //   <RefreshControl
-        //     refreshing={true}
-        //     onRefresh={() => {
-        //       console.log('red');
-        //     }}
-        //   />
-        // }
-        showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <View style={styles.header}>
-            <Text style={styles.title}>Categories</Text>
+            <Text style={[styles.title, {color: colors.text}]}>Categories</Text>
             <TouchableOpacity>
-              <Text style={styles.seemore}>See more</Text>
+              <Text style={[styles.seemore, {color: colors.text}]}>
+                See more
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={{}}>
@@ -76,19 +77,29 @@ const Home = () => {
                       styles.TouchableOpacity,
                       {marginLeft: index === 0 ? 18 : undefined},
                     ]}>
-                    <Text>{item?.name}</Text>
+                    <Text
+                      style={{
+                        color: colors.text,
+                        fontFamily: Style.fontFamily.medium,
+                      }}>
+                      {item?.name}
+                    </Text>
                   </TouchableOpacity>
                 ))}
               </ScrollView>
             </View>
           </View>
           <View style={[styles.header, {marginTop: normalize(10)}]}>
-            <Text style={styles.title}>Recommended For You</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              Recommended For You
+            </Text>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('Books', {title: 'Recommended For You'});
               }}>
-              <Text style={styles.seemore}>See more</Text>
+              <Text style={[styles.seemore, {color: colors.text}]}>
+                See more
+              </Text>
             </TouchableOpacity>
           </View>
           <View>
@@ -99,12 +110,16 @@ const Home = () => {
             </ScrollView>
           </View>
           <View style={[styles.header, {marginTop: normalize(10)}]}>
-            <Text style={styles.title}>Best Seller</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              Best Seller
+            </Text>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('Books', {title: 'Best Seller'});
               }}>
-              <Text style={styles.seemore}>See more</Text>
+              <Text style={[styles.seemore, {color: colors.text}]}>
+                See more
+              </Text>
             </TouchableOpacity>
           </View>
           <View>
@@ -115,12 +130,16 @@ const Home = () => {
             </ScrollView>
           </View>
           <View style={[styles.header, {marginTop: normalize(10)}]}>
-            <Text style={styles.title}>New Releases</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              New Releases
+            </Text>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('Books', {title: 'New Releases'});
               }}>
-              <Text style={styles.seemore}>See more</Text>
+              <Text style={[styles.seemore, {color: colors.text}]}>
+                See more
+              </Text>
             </TouchableOpacity>
           </View>
           <View>
@@ -131,12 +150,16 @@ const Home = () => {
             </ScrollView>
           </View>
           <View style={[styles.header, {marginTop: normalize(10)}]}>
-            <Text style={styles.title}>Trending Now</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              Trending Now
+            </Text>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('Books', {title: 'Trending Now'});
               }}>
-              <Text style={styles.seemore}>See more</Text>
+              <Text style={[styles.seemore, {color: colors.text}]}>
+                See more
+              </Text>
             </TouchableOpacity>
           </View>
           <View>

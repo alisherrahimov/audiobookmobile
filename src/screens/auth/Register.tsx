@@ -1,24 +1,54 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
-import {normalize, Style} from '../../style/Style';
+import {AppTheme, normalize, Style} from '../../style/Style';
 import Input from '../components/Input';
 import CustomButton from '../components/CustomButton';
 import {style} from '../../style/Index';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
+import {useRegisterMutation} from '../../generated/graphql';
 
 const Register = () => {
-  const {dark} = useTheme();
+  const {colors, dark} = useTheme() as AppTheme;
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
+  const [register, {loading}] = useRegisterMutation();
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [date, setDate] = React.useState('');
+  const [username, setUsername] = React.useState('');
+
+  const _postData = async () => {
+    try {
+      const {data} = await register({
+        variables: {
+          email: email,
+          password: password,
+          date: date,
+          username: username,
+        },
+      });
+      if (data?.register?.error) {
+        Alert.alert('ERROR', JSON.stringify(data?.register?.message));
+      } else {
+        navigation.navigate('UserActive', {email: email});
+      }
+    } catch (error) {
+      Alert.alert('ERROR', JSON.stringify(error));
+    }
+  };
+
   return (
-    <View
-      style={[
-        styles.container,
-        {backgroundColor: dark ? Style.darkBackgroundColor : '#fff'},
-      ]}>
+    <View style={[styles.container, {backgroundColor: colors.background}]}>
       <View style={{width: '85%', alignSelf: 'center'}}>
         <View style={{alignSelf: 'center', marginTop: normalize(50)}}>
           <SvgXml
@@ -28,21 +58,82 @@ const Register = () => {
           />
         </View>
         <View>
-          <Text
-            style={[
-              styles.text,
-              {color: dark ? '#fff' : Style.darkColor.borderColor},
-            ]}>
-            Register
-          </Text>
+          <Text style={[styles.text, {color: colors.text}]}>Register</Text>
           <View style={{marginTop: normalize(15)}}>
-            <Input placeholder="Email" />
+            <View>
+              <TextInput
+                selectionColor={Style.buttonColor}
+                placeholder={'Username'}
+                onChangeText={text => setUsername(text)}
+                placeholderTextColor={Style.placeholderColor}
+                style={[
+                  styles.input,
+                  {
+                    backgroundColor: dark
+                      ? Style.darkTextInputColor
+                      : '#F5F5FA',
+                    color: dark ? '#fff' : Style.darkColor.borderColor,
+                  },
+                ]}
+              />
+            </View>
           </View>
           <View style={{marginTop: normalize(15)}}>
-            <Input placeholder="Password" />
+            <View>
+              <TextInput
+                selectionColor={Style.buttonColor}
+                placeholder={'Email'}
+                onChangeText={text => setEmail(text)}
+                placeholderTextColor={Style.placeholderColor}
+                style={[
+                  styles.input,
+                  {
+                    backgroundColor: dark
+                      ? Style.darkTextInputColor
+                      : '#F5F5FA',
+                    color: dark ? '#fff' : Style.darkColor.borderColor,
+                  },
+                ]}
+              />
+            </View>
           </View>
           <View style={{marginTop: normalize(15)}}>
-            <Input placeholder="Date of Birth" />
+            <View>
+              <TextInput
+                selectionColor={Style.buttonColor}
+                placeholder={'Password'}
+                onChangeText={text => setPassword(text)}
+                placeholderTextColor={Style.placeholderColor}
+                style={[
+                  styles.input,
+                  {
+                    backgroundColor: dark
+                      ? Style.darkTextInputColor
+                      : '#F5F5FA',
+                    color: dark ? '#fff' : Style.darkColor.borderColor,
+                  },
+                ]}
+              />
+            </View>
+          </View>
+          <View style={{marginTop: normalize(15)}}>
+            <View>
+              <TextInput
+                selectionColor={Style.buttonColor}
+                placeholder={'Date of Birth'}
+                onChangeText={text => setDate(text)}
+                placeholderTextColor={Style.placeholderColor}
+                style={[
+                  styles.input,
+                  {
+                    backgroundColor: dark
+                      ? Style.darkTextInputColor
+                      : '#F5F5FA',
+                    color: dark ? '#fff' : Style.darkColor.borderColor,
+                  },
+                ]}
+              />
+            </View>
           </View>
           <View style={{marginTop: normalize(15)}}>
             <Text
@@ -77,9 +168,8 @@ const Register = () => {
           </View>
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
-              onPress={() => {
-                navigation.navigate('Welcome');
-              }}
+              loading={loading}
+              onPress={_postData}
               color={Style.buttonColor}
               textColor={'#fff'}
               title="Register"
@@ -128,5 +218,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: Style.buttonColor,
     borderWidth: 1,
+  },
+  input: {
+    height: normalize(50),
+    borderRadius: 10,
+    width: '100%',
+    paddingLeft: normalize(10),
+    fontSize: Style.fontSize.small,
+    fontFamily: Style.fontFamily.medium,
   },
 });

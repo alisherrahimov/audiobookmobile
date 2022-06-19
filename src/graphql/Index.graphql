@@ -24,6 +24,43 @@ query getHome {
     name
   }
 }
-mutation Login($input: login!) {
-  login(input: $input)
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    error
+    message
+  }
+}
+mutation ForgetPassword($email: String) {
+  forgetPassword(email: $email) {
+    error
+    message
+  }
+}
+mutation CheckCode($email: String, $code: Int) {
+  checkCode(email: $email, code: $code)
+}
+mutation ResetPassword($email: String, $password: String) {
+  resetPassword(email: $email, password: $password) {
+    error
+    message
+  }
+}
+mutation Register(
+  $email: String
+  $date: String
+  $password: String
+  $username: String
+) {
+  register(
+    email: $email
+    date: $date
+    password: $password
+    username: $username
+  ) {
+    error
+    message
+  }
+}
+mutation Active($email: String, $code: Int) {
+  active(email: $email, code: $code)
 }

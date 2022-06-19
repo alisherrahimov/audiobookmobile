@@ -8,41 +8,42 @@ import {
 } from 'react-native';
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
-import {images} from '../../image/intro/images';
-import {normalize, Style} from '../../style/Style';
-import Input from '../components/Input';
-import CustomButton from '../components/CustomButton';
-import {style} from '../../style/Index';
+import {images} from '../image/intro/images';
+import {normalize, Style} from '../style/Style';
+import CustomButton from './components/CustomButton';
+import {style} from '../style/Index';
 import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {HomeTabScreenProps, NavigationType} from '../../types/NavigationType';
-import {useCheckCodeMutation} from '../../generated/graphql';
+import {HomeTabScreenProps, NavigationType} from '../types/NavigationType';
+import {
+  useCheckCodeMutation,
+  useResetPasswordMutation,
+} from '../generated/graphql';
 
-const ConfirmationCode = () => {
-  const route = useRoute<HomeTabScreenProps<['ConfirmationCode']>['route']>();
+const ChangePassword = () => {
+  const route = useRoute<HomeTabScreenProps<['ChangePassword']>['route']>();
   const {dark} = useTheme();
-  const {email, type} = route.params;
-  const [code, setCode] = React.useState('');
+  const {email} = route.params;
+  const [password, setPassword] = React.useState('');
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
-  const [checkCode, {loading}] = useCheckCodeMutation();
+  const [checkCode, {loading}] = useResetPasswordMutation();
   const _postData = async () => {
     try {
       const {data} = await checkCode({
         variables: {
           email: email,
-          code: Number(code),
+          password: password,
         },
       });
-      if (data?.checkCode) {
-        navigation.navigate('ChangePassword', {email: email});
+      if (data?.resetPassword?.error) {
+        Alert.alert('ERROR', JSON.stringify(data?.resetPassword?.message));
       } else {
-        Alert.alert('ERROR', JSON.stringify("Code doesn't match"));
+        navigation.navigate('Login');
       }
     } catch (error) {
       Alert.alert('ERROR', JSON.stringify(error));
     }
   };
-
   return (
     <View
       style={[
@@ -74,15 +75,34 @@ const ConfirmationCode = () => {
                   color: dark ? '#fff' : Style.darkColor.borderColor,
                 },
               ]}>
-              Enter the confirmation code we sent to {email}
+              Enter the confirmation code we sent to your@mail.com.
             </Text>
           </View>
           <View style={{marginTop: normalize(15)}}>
             <View>
               <TextInput
                 selectionColor={Style.buttonColor}
-                placeholder={'Confirmation Code'}
-                onChangeText={text => setCode(text)}
+                placeholder={'Password'}
+                onChangeText={text => setPassword(text)}
+                placeholderTextColor={Style.placeholderColor}
+                style={[
+                  styles.input,
+                  {
+                    backgroundColor: dark
+                      ? Style.darkTextInputColor
+                      : '#F5F5FA',
+                    color: dark ? '#fff' : Style.darkColor.borderColor,
+                  },
+                ]}
+              />
+            </View>
+          </View>
+          <View style={{marginTop: normalize(15)}}>
+            <View>
+              <TextInput
+                selectionColor={Style.buttonColor}
+                placeholder={'Retry password'}
+                onChangeText={text => setPassword(text)}
                 placeholderTextColor={Style.placeholderColor}
                 style={[
                   styles.input,
@@ -133,10 +153,8 @@ const ConfirmationCode = () => {
           </View>
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
-              onPress={() => {
-                _postData();
-              }}
               loading={loading}
+              onPress={_postData}
               color={Style.buttonColor}
               textColor={'#fff'}
               title="Submit"
@@ -160,7 +178,7 @@ const ConfirmationCode = () => {
   );
 };
 
-export default ConfirmationCode;
+export default ChangePassword;
 
 const styles = StyleSheet.create({
   container: {

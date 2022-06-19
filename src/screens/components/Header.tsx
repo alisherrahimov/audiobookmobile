@@ -2,7 +2,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
-import {normalize, Style} from '../../style/Style';
+import {AppTheme, normalize, Style} from '../../style/Style';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
@@ -19,7 +19,7 @@ const Header: React.FC<Props> = ({
   onPress,
 }) => {
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
-  const {dark} = useTheme();
+  const {dark, colors} = useTheme() as AppTheme;
   const checkLength = (title: string) => {
     if (title.length > 25) {
       return title.substring(0, 25) + '...';
@@ -52,7 +52,7 @@ const Header: React.FC<Props> = ({
             borderRadius: 15,
           }}>
           <SvgXml
-            xml={images.arrowLeft}
+            xml={images.arrowLeft(colors.text)}
             width={normalize(20)}
             height={normalize(20)}
           />

@@ -1,14 +1,15 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {normalize} from '../../style/Style';
-import {useNavigation} from '@react-navigation/native';
+import {AppTheme, normalize, Style} from '../../style/Style';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 interface Props {
-  item?: {id: string; image: string} | undefined;
+  item?: {id?: string | null; image?: string | null} | null;
   index: number;
 }
 const RecommendCard: React.FC<Props> = ({index, item, children}) => {
+  const {colors, dark} = useTheme() as AppTheme;
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   return (
     <TouchableOpacity
@@ -20,7 +21,9 @@ const RecommendCard: React.FC<Props> = ({index, item, children}) => {
         styles.container,
         {margin: index % 2 == 0 ? 18 : undefined, marginTop: 18},
       ]}>
-      <Text>{index}</Text>
+      <Text style={{fontFamily: Style.fontFamily.medium, color: colors.text}}>
+        {index}
+      </Text>
     </TouchableOpacity>
   );
 };

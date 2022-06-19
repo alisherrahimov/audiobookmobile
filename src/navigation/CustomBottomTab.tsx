@@ -13,7 +13,7 @@ const CustomBottomTabBar: React.FC<Props> = ({
   descriptors,
   navigation,
 }) => {
-  const {dark, colors} = useTheme() as AppTheme;
+  const {colors, dark} = useTheme() as AppTheme;
 
   return (
     <View
@@ -76,12 +76,18 @@ const CustomBottomTabBar: React.FC<Props> = ({
             onLongPress={onLongPress}
             style={[
               styles.TouchableOpacity,
-              {backgroundColor: dark ? Style.darkBackgroundColor : '#fff'},
+              {backgroundColor: colors.background},
             ]}>
-            {isFocused ? route?.params?.FocusIcon() : route?.params?.Icon()}
+            {isFocused
+              ? route?.params?.FocusIcon('#fff')
+              : route?.params?.Icon()}
             <Text
               style={{
-                color: isFocused ? Style.buttonColor : Style.bottomTextColor,
+                color: isFocused
+                  ? dark
+                    ? '#fff'
+                    : Style.buttonColor
+                  : Style.bottomTextColor,
                 fontSize: normalize(12),
                 fontFamily: Style.fontFamily.medium,
               }}>

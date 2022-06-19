@@ -7,7 +7,7 @@ import {useTheme} from '@react-navigation/native';
 StatusBar.setBackgroundColor('rgba(0,0,0,0)', true);
 StatusBar.setTranslucent(true);
 const client = new ApolloClient({
-  uri: 'http://192.168.1.6:4000/graphql',
+  uri: 'http://192.168.1.7:4000/graphql',
   cache: new InMemoryCache(),
 });
 const App = () => {

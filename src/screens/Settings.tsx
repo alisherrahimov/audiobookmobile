@@ -1,16 +1,17 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Header from './components/Header';
-import {normalize, Style} from '../style/Style';
+import {AppTheme, normalize, Style} from '../style/Style';
 import CustomButton from './components/CustomButton';
-import {useNavigation} from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { NavigationType } from '../types/NavigationType';
+import {useNavigation, useTheme} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NavigationType} from '../types/NavigationType';
 
 const Settings = () => {
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
+  const {colors, dark} = useTheme() as AppTheme;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: colors.background}]}>
       <Header
         title="Settings"
         onPress={() => {
@@ -33,19 +34,28 @@ const Settings = () => {
             />
           </View>
           <View style={{marginLeft: normalize(15), justifyContent: 'center'}}>
-            <Text style={[styles.title, {fontFamily: Style.fontFamily.bold}]}>
+            <Text
+              style={[
+                styles.title,
+                {fontFamily: Style.fontFamily.bold, color: colors.text},
+              ]}>
               Elon Mask
             </Text>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('User');
               }}>
-              <Text style={styles.author}>View Profile</Text>
+              <Text style={[styles.author]}>View Profile</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
-      <View style={styles.free} />
+      <View
+        style={[
+          styles.free,
+          {backgroundColor: colors.textInputBackgroundColor},
+        ]}
+      />
       <TouchableOpacity
         style={{
           marginHorizontal: normalize(25),
@@ -54,11 +64,18 @@ const Settings = () => {
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{justifyContent: 'center'}}>
-            <Text style={styles.title}>Notifications</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              Notifications
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
-      <View style={[styles.free, {height: 3}]} />
+      <View
+        style={[
+          styles.free,
+          {height: 3, backgroundColor: colors.textInputBackgroundColor},
+        ]}
+      />
       <TouchableOpacity
         style={{
           marginHorizontal: normalize(25),
@@ -67,11 +84,18 @@ const Settings = () => {
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{justifyContent: 'center'}}>
-            <Text style={styles.title}>Data and Storages</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              Data and Storages
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
-      <View style={styles.free} />
+      <View
+        style={[
+          styles.free,
+          {backgroundColor: colors.textInputBackgroundColor},
+        ]}
+      />
       <TouchableOpacity
         style={{
           marginHorizontal: normalize(25),
@@ -80,11 +104,18 @@ const Settings = () => {
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{justifyContent: 'center'}}>
-            <Text style={styles.title}>Subscription</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              Subscription
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
-      <View style={[styles.free, {height: 3}]} />
+      <View
+        style={[
+          styles.free,
+          {backgroundColor: colors.textInputBackgroundColor, height: 3},
+        ]}
+      />
       <TouchableOpacity
         style={{
           marginHorizontal: normalize(25),
@@ -93,11 +124,18 @@ const Settings = () => {
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{justifyContent: 'center'}}>
-            <Text style={styles.title}>Linked Account</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              Linked Account
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
-      <View style={styles.free} />
+      <View
+        style={[
+          styles.free,
+          {backgroundColor: colors.textInputBackgroundColor},
+        ]}
+      />
       <TouchableOpacity
         style={{
           marginHorizontal: normalize(25),
@@ -106,14 +144,21 @@ const Settings = () => {
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={{justifyContent: 'center'}}>
-            <Text style={styles.title}>About Audibooks</Text>
+            <Text style={[styles.title, {color: colors.text}]}>
+              About Audibooks
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
-      <View style={[styles.free, {height: 3}]} />
+      <View
+        style={[
+          styles.free,
+          {backgroundColor: dark ? '#1C1C4D' : '#fff', height: 3},
+        ]}
+      />
       <View style={{alignItems: 'center', marginTop: normalize(20)}}>
         <CustomButton
-          color="#fff"
+          color={dark ? colors.background : '#fff'}
           textColor={Style.orangeColor}
           borderColor={Style.orangeColor}
           title="Log out"

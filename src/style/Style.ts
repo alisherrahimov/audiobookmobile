@@ -65,9 +65,16 @@ export interface AppTheme extends Theme {
     text: string;
     border: string;
     primary: string;
-    secondary: string;
     card: string;
     notification: string;
+    placeholder?: string;
+    buttonBorderColor?: string;
+    buttonColor?: string;
+    buttonTextColor?: string;
+    buttonDisabledColor?: string;
+    buttonDisabledTextColor?: string;
+    textInputColor?: string;
+    textInputBackgroundColor?: string;
   };
 }
 
@@ -76,11 +83,15 @@ export const darkSchema: AppTheme = {
   colors: {
     background: '#0F0F29',
     border: Style.darkColor.primary,
-    card: Style.darkColor.primary,
+    card: '#2E2E5D',
     text: Style.darkColor.textColor,
     primary: Style.darkColor.primary,
     notification: Style.darkColor.primary,
-    secondary: Style.darkColor.primary,
+    textInputBackgroundColor: '#1C1C4D',
+    buttonColor: '#4838D1',
+    buttonTextColor: '#fff',
+    buttonBorderColor: '#fff',
+    placeholder: Style.placeholderColor,
   },
 };
 
@@ -89,10 +100,14 @@ export const lightSchema: AppTheme = {
   colors: {
     background: Style.lightColor.primary,
     border: Style.lightColor.primary,
-    card: Style.lightColor.primary,
+    card: '#F5F5FA',
     text: Style.lightColor.textColor,
     primary: Style.lightColor.primary,
     notification: Style.lightColor.primary,
-    secondary: Style.darkColor.primary,
+    buttonColor: '#4838D1',
+    textInputBackgroundColor: '#F5F5FA',
+    placeholder: Style.placeholderColor,
+    buttonTextColor: '#4838D1',
+    buttonBorderColor: '#4838D1',
   },
 };

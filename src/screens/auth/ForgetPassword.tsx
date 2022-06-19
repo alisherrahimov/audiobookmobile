@@ -1,4 +1,11 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
@@ -9,10 +16,27 @@ import {style} from '../../style/Index';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
+import {useForgetPasswordMutation} from '../../generated/graphql';
 
 const ForgetPassword = () => {
   const {dark} = useTheme();
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
+  const [email, setEmail] = React.useState('');
+  const [forgot, {loading}] = useForgetPasswordMutation();
+  const _postData = async () => {
+    try {
+      const {data} = await forgot({
+        variables: {email: email},
+      });
+      if (data?.forgetPassword?.error) {
+        Alert.alert('ERROR', JSON.stringify(data?.forgetPassword?.message));
+      } else {
+        navigation.navigate('ConfirmationCode', {email: email});
+      }
+    } catch (error) {
+      Alert.alert('ERROR', JSON.stringify(error));
+    }
+  };
   return (
     <View
       style={[
@@ -49,14 +73,32 @@ const ForgetPassword = () => {
             </Text>
           </View>
           <View style={{marginTop: normalize(15)}}>
-            <Input placeholder="Email or Phone Number" />
+            <View>
+              <TextInput
+                selectionColor={Style.buttonColor}
+                placeholder={'Email'}
+                keyboardType="email-address"
+                onChangeText={text => setEmail(text)}
+                placeholderTextColor={Style.placeholderColor}
+                style={[
+                  styles.input,
+                  {
+                    backgroundColor: dark
+                      ? Style.darkTextInputColor
+                      : '#F5F5FA',
+                    color: dark ? '#fff' : Style.darkColor.borderColor,
+                  },
+                ]}
+              />
+            </View>
           </View>
 
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
               onPress={() => {
-                navigation.navigate('ConfirmationCode');
+                _postData();
               }}
+              loading={loading}
               color={Style.buttonColor}
               textColor={'#fff'}
               title="Submit"
@@ -105,5 +147,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: Style.buttonColor,
     borderWidth: 1,
+  },
+  input: {
+    height: normalize(50),
+    borderRadius: 10,
+    width: '100%',
+    paddingLeft: normalize(10),
+    fontSize: Style.fontSize.small,
+    fontFamily: Style.fontFamily.medium,
   },
 });

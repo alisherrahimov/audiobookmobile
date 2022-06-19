@@ -14,9 +14,9 @@ import Register from '../screens/auth/Register';
 import ConfirmationCode from '../screens/auth/ConfirmationCode';
 import ForgetPassword from '../screens/auth/ForgetPassword';
 import {NavigationType} from '../types/NavigationType';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useTheme} from '@react-navigation/native';
 import CustomBottomTabBar from './CustomBottomTab';
-import {darkSchema, lightSchema, Style} from '../style/Style';
+import {AppTheme, darkSchema, lightSchema, Style} from '../style/Style';
 import Welcome from '../screens/auth/Welcome';
 import SelectTopic from '../screens/auth/SelectTopic';
 import {SvgXml} from 'react-native-svg';
@@ -27,17 +27,20 @@ import BookDetails from '../screens/BookDetails';
 const TabNavigator = createBottomTabNavigator();
 const StackNavigator = createNativeStackNavigator<NavigationType>();
 const BottomTab = () => {
+  const {colors, dark} = useTheme() as AppTheme;
   return (
     <TabNavigator.Navigator
       tabBar={props => <CustomBottomTabBar {...props} />}
-      screenOptions={{headerShown: false}}>
+      screenOptions={{headerShown: false, tabBarHideOnKeyboard: true}}>
       <TabNavigator.Screen
         name="Home"
         component={HomeStackNavigator}
         options={{tabBarLabel: 'Home'}}
         initialParams={{
           Icon: () => <SvgXml xml={images.home('gray')} />,
-          FocusIcon: () => <SvgXml xml={images.home(Style.buttonColor)} />,
+          FocusIcon: () => (
+            <SvgXml xml={dark ? images.home('#fff') : images.home('#4838D1')} />
+          ),
         }}
       />
       <TabNavigator.Screen
@@ -46,7 +49,11 @@ const BottomTab = () => {
         options={{tabBarLabel: 'Search'}}
         initialParams={{
           Icon: () => <SvgXml xml={images.search('gray')} />,
-          FocusIcon: () => <SvgXml xml={images.search(Style.buttonColor)} />,
+          FocusIcon: () => (
+            <SvgXml
+              xml={dark ? images.search('#fff') : images.search('#4838D1')}
+            />
+          ),
         }}
       />
       <TabNavigator.Screen
@@ -55,7 +62,11 @@ const BottomTab = () => {
         options={{tabBarLabel: 'Library'}}
         initialParams={{
           Icon: () => <SvgXml xml={images.library('gray')} />,
-          FocusIcon: () => <SvgXml xml={images.library(Style.buttonColor)} />,
+          FocusIcon: () => (
+            <SvgXml
+              xml={dark ? images.library('#fff') : images.library('#4838D1')}
+            />
+          ),
         }}
       />
     </TabNavigator.Navigator>

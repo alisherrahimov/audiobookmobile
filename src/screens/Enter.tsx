@@ -12,9 +12,9 @@ import React, {useRef} from 'react';
 import BackgroundImage from './components/BackgroundImage';
 import {images} from '../image/intro/images';
 import {SvgXml} from 'react-native-svg';
-import {normalize, Style} from '../style/Style';
+import {AppTheme, normalize, Style} from '../style/Style';
 import CustomButton from './components/CustomButton';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../types/NavigationType';
 const data: {title: string; desc: string; image: string}[] = [
@@ -36,6 +36,7 @@ const data: {title: string; desc: string; image: string}[] = [
 ];
 const ReViewCardSize = Style.width - 45;
 const Enter = () => {
+  const {colors} = useTheme() as AppTheme;
   const scrollRef = useRef<FlatList>(null);
   const [index, setIndex] = React.useState(0);
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
@@ -54,14 +55,15 @@ const Enter = () => {
           justifyContent: 'center',
         }}>
         <SvgXml xml={item.image} />
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.desc}>{item.desc}</Text>
+        <Text style={[styles.title, {color: colors.text}]}>{item.title}</Text>
+        <Text style={[styles.desc, {color: colors.text}]}>{item.desc}</Text>
       </View>
     );
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, {backgroundColor: colors.background}]}>
       <BackgroundImage />
       <View
         style={{
@@ -141,8 +143,8 @@ const Enter = () => {
             onPress={() => {
               navigation.navigate('Login');
             }}
-            textColor={Style.buttonColor}
-            color={'#fff'}
+            textColor={colors.buttonTextColor}
+            color={colors.background}
             title="Skip"
             width={normalize(120)}
             height={normalize(50)}

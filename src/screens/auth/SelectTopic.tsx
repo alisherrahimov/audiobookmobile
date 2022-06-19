@@ -22,7 +22,8 @@ const SelectTopic = () => {
     return <Ready navigation={navigation} dark={dark} />;
   }
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, {width: Style.width, height: Style.height}]}>
       <BackgroundImage />
       <View
         style={{
@@ -60,10 +61,14 @@ const SelectTopic = () => {
               you like, we will give you more often that relate to it.
             </Text>
           </View>
-          <View style={{marginTop: 20, marginBottom: 20}}>
-            <Input placeholder="Search Categories" />
-          </View>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              marginTop: 20,
+              marginBottom: 20,
+            }}>
             {[
               {id: 1, title: 'Drama'},
               {id: 2, title: 'Art'},
@@ -119,11 +124,11 @@ const Ready: React.FC<Props> = ({navigation, dark}) => {
   return (
     <View
       style={[
-        styles.container,
         {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: dark ? Style.darkBackgroundColor : '#f5f5f5',
+          flex: 1,
         },
       ]}>
       <View
@@ -180,9 +185,7 @@ const Ready: React.FC<Props> = ({navigation, dark}) => {
 export default SelectTopic;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: {},
   find: {
     fontSize: Style.fontSize.xxlarge + 25,
     fontFamily: Style.fontFamily.thin,

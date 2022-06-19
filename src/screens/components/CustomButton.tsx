@@ -1,15 +1,21 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import React from 'react';
 import {normalize, Style} from '../../style/Style';
 interface Props {
   title: string;
-  color: string;
-  textColor: string;
+  color?: string;
+  textColor?: string;
   onPress?: () => void;
   width?: number | string;
   height?: number | string;
   borderWidth?: number;
   borderColor?: string;
+  loading?: boolean;
 }
 const CustomButton: React.FC<Props> = ({
   color,
@@ -21,12 +27,14 @@ const CustomButton: React.FC<Props> = ({
   borderColor,
   borderWidth,
   children,
+  loading,
 }) => {
   return (
     <TouchableOpacity
+      disabled={loading}
       onPress={onPress}
       style={{
-        backgroundColor: color,
+        backgroundColor: loading ? '#DAD7F6' : color,
         width,
         height,
         borderRadius: 15,
@@ -42,7 +50,11 @@ const CustomButton: React.FC<Props> = ({
           fontFamily: Style.fontFamily.medium,
           fontSize: normalize(14),
         }}>
-        {title}
+        {loading ? (
+          <ActivityIndicator size={'large'} color={'#fff'} />
+        ) : (
+          <Text>{title}</Text>
+        )}
       </Text>
     </TouchableOpacity>
   );

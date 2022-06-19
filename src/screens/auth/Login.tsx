@@ -1,28 +1,51 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
-import {normalize, Style} from '../../style/Style';
-import Input from '../components/Input';
+import {AppTheme, normalize, Style} from '../../style/Style';
 import CustomButton from '../components/CustomButton';
 import {style} from '../../style/Index';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {NavigationType} from '../../types/NavigationType';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useLoginMutation} from '../../generated/graphql';
 
 const Login = () => {
-  const {dark} = useTheme();
+  const {colors, dark} = useTheme() as AppTheme;
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
-
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [login, {loading}] = useLoginMutation();
+  const _postData = async () => {
+    try {
+      const {data} = await login({
+        variables: {
+          input: {
+            email: email,
+            password: password,
+          },
+        },
+      });
+      if (data?.login.error) {
+        Alert.alert('ERROR', JSON.stringify(data.login.message));
+      } else {
+        console.log(data);
+        navigation.navigate('Home');
+      }
+    } catch (error) {
+      Alert.alert('ERROR', JSON.stringify(error));
+    }
+  };
 
   return (
-    <View
-      style={[
-        styles.container,
-        {backgroundColor: dark ? Style.darkBackgroundColor : '#fff'},
-      ]}>
+    <View style={[styles.container, {backgroundColor: colors.background}]}>
       <View style={{width: '85%', alignSelf: 'center'}}>
         <View style={{alignSelf: 'center', marginTop: normalize(50)}}>
           <SvgXml
@@ -32,27 +55,58 @@ const Login = () => {
           />
         </View>
         <View>
-          <Text
-            style={[
-              styles.text,
-              {color: dark ? '#fff' : Style.darkColor.borderColor},
-            ]}>
+          <Text style={[styles.text, {color: colors.text}]}>
             Login to Your Account
           </Text>
           <View style={{marginTop: normalize(15)}}>
-            <Input placeholder="Email" />
+            <View>
+              <TextInput
+                selectionColor={Style.buttonColor}
+                placeholder={'Email'}
+                keyboardType="email-address"
+                onChangeText={text => setEmail(text)}
+                placeholderTextColor={Style.placeholderColor}
+                style={[
+                  styles.input,
+                  {
+                    backgroundColor: dark
+                      ? Style.darkTextInputColor
+                      : '#F5F5FA',
+                    color: dark ? '#fff' : Style.darkColor.borderColor,
+                  },
+                ]}
+              />
+            </View>
           </View>
           <View style={{marginTop: normalize(15)}}>
-            <Input placeholder="Password" secureTextEntry={true} />
+            <View>
+              <TextInput
+                selectionColor={Style.buttonColor}
+                placeholder={'Password'}
+                secureTextEntry={true}
+                onChangeText={text => setPassword(text)}
+                placeholderTextColor={Style.placeholderColor}
+                style={[
+                  styles.input,
+                  {
+                    backgroundColor: dark
+                      ? Style.darkTextInputColor
+                      : '#F5F5FA',
+                    color: dark ? '#fff' : Style.darkColor.borderColor,
+                  },
+                ]}
+              />
+            </View>
           </View>
           <View style={{marginTop: normalize(15)}}>
             <CustomButton
               onPress={() => {
-                navigation.navigate('BottomTab');
+                _postData();
               }}
               color={Style.buttonColor}
               textColor={'#fff'}
               title="Login"
+              loading={loading}
               height={normalize(50)}
             />
           </View>
@@ -66,13 +120,7 @@ const Login = () => {
           </View>
         </View>
         <View style={{marginTop: normalize(25), alignSelf: 'center'}}>
-          <Text
-            style={[
-              style.text,
-              {color: dark ? '#fff' : Style.darkColor.borderColor},
-            ]}>
-            Or login with
-          </Text>
+          <Text style={[style.text, {color: colors.text}]}>Or login with</Text>
         </View>
         <View
           style={{
@@ -88,10 +136,7 @@ const Login = () => {
             }}>
             <TouchableOpacity
               activeOpacity={0.8}
-              style={[
-                styles.touch,
-                {backgroundColor: dark ? Style.darkBackgroundColor : '#f5f5f5'},
-              ]}>
+              style={[styles.touch, {backgroundColor: colors.background}]}>
               <SvgXml
                 xml={images.google}
                 width={normalize(30)}
@@ -100,10 +145,7 @@ const Login = () => {
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
-              style={[
-                styles.touch,
-                {backgroundColor: dark ? Style.darkBackgroundColor : '#f5f5f5'},
-              ]}>
+              style={[styles.touch, {backgroundColor: colors.background}]}>
               <SvgXml
                 xml={images.facebook}
                 width={normalize(30)}
@@ -112,10 +154,7 @@ const Login = () => {
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
-              style={[
-                styles.touch,
-                {backgroundColor: dark ? Style.darkBackgroundColor : '#f5f5f5'},
-              ]}>
+              style={[styles.touch, {backgroundColor: colors.background}]}>
               <SvgXml
                 xml={images.twitter}
                 width={normalize(30)}
@@ -130,11 +169,7 @@ const Login = () => {
             alignSelf: 'center',
             flexDirection: 'row',
           }}>
-          <Text
-            style={[
-              style.text,
-              {color: dark ? '#fff' : Style.darkColor.borderColor},
-            ]}>
+          <Text style={[style.text, {color: colors.text}]}>
             Don't have an account?
           </Text>
           <TouchableOpacity
@@ -185,5 +220,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: Style.buttonColor,
     borderWidth: 1,
+  },
+  input: {
+    height: normalize(50),
+    borderRadius: 10,
+    width: '100%',
+    paddingLeft: normalize(10),
+    fontSize: Style.fontSize.small,
+    fontFamily: Style.fontFamily.medium,
   },
 });

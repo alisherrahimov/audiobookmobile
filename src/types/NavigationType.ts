@@ -13,7 +13,10 @@ export type NavigationType = {
   Library: any;
   Search: any;
   BottomTab: any;
-  ConfirmationCode: any;
+  ConfirmationCode: {
+    email: string;
+    type: number;
+  };
   Welcome: any;
   SelectTopic: any;
   Books: {
@@ -22,6 +25,12 @@ export type NavigationType = {
   BookDetails: any;
   GroupNavigator: any;
   AuthNavigator: any;
+  ChangePassword: {
+    email: string;
+  };
+  UserActive: {
+    email: string;
+  };
 };
 export type RootStackScreenProps<T extends keyof NavigationType> =
   StackScreenProps<NavigationType, T>;
@@ -30,3 +39,8 @@ export type HomeTabScreenProps<T extends keyof NavigationType> =
     BottomTabScreenProps<NavigationType, T>,
     RootStackScreenProps<keyof NavigationType>
   >;
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends NavigationType {}
+  }
+}

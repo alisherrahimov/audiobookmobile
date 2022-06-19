@@ -9,18 +9,18 @@ import {
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
-import {normalize, Style} from '../../style/Style';
+import {AppTheme, normalize, Style} from '../../style/Style';
 import Input from '../components/Input';
 
 import BookCard from '../components/BookCard';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 import SearchLoading from '../components/SearchLoading';
 
 const Search = () => {
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
-
+  const {colors, dark} = useTheme() as AppTheme;
   return (
     <View style={styles.container}>
       <View
@@ -33,12 +33,24 @@ const Search = () => {
           height: normalize(80),
           paddingBottom: 10,
         }}>
-        <SvgXml xml={images.logoname} />
+        <SvgXml
+          xml={
+            dark
+              ? images.logoname('#fff')
+              : images.logoname(colors.buttonBorderColor)
+          }
+        />
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Settings');
           }}>
-          <SvgXml xml={images.setting} />
+          <SvgXml
+            xml={
+              dark
+                ? images.setting('#fff')
+                : images.setting(colors.buttonBorderColor)
+            }
+          />
         </TouchableOpacity>
       </View>
       <View
@@ -50,7 +62,7 @@ const Search = () => {
           },
         ]}>
         <View>
-          <Text style={styles.explore}>Explore</Text>
+          <Text style={[styles.explore, {color: colors.text}]}>Explore</Text>
         </View>
         <View style={{marginTop: normalize(10)}}>
           <Input placeholder="Search Books and Author" />
@@ -97,6 +109,7 @@ const Search = () => {
   );
 };
 const SearchResult = () => {
+  const {colors, dark} = useTheme() as AppTheme;
   return (
     <View>
       <View
@@ -107,7 +120,9 @@ const SearchResult = () => {
           },
         ]}>
         <View>
-          <Text style={styles.reco}>Search Results</Text>
+          <Text style={[styles.reco, {color: colors.text}]}>
+            Search Results
+          </Text>
         </View>
         <FlatList
           contentContainerStyle={{marginTop: normalize(10)}}

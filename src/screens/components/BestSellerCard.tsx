@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 interface Props {
-  item?: {id?: string; image?: string; title?: string} | null;
+  item?: {id?: string | null; image?: string | null} | null;
   index: number;
 }
 const BestSellerCard: React.FC<Props> = ({index, item}) => {

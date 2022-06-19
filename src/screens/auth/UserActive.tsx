@@ -16,25 +16,25 @@ import {style} from '../../style/Index';
 import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeTabScreenProps, NavigationType} from '../../types/NavigationType';
-import {useCheckCodeMutation} from '../../generated/graphql';
+import {useActiveMutation, useCheckCodeMutation} from '../../generated/graphql';
 
-const ConfirmationCode = () => {
-  const route = useRoute<HomeTabScreenProps<['ConfirmationCode']>['route']>();
+const UserActive = () => {
+  const route = useRoute<HomeTabScreenProps<['UserActive']>['route']>();
   const {dark} = useTheme();
-  const {email, type} = route.params;
+  const {email} = route.params;
   const [code, setCode] = React.useState('');
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
-  const [checkCode, {loading}] = useCheckCodeMutation();
+  const [active, {loading}] = useActiveMutation();
   const _postData = async () => {
     try {
-      const {data} = await checkCode({
+      const {data} = await active({
         variables: {
           email: email,
           code: Number(code),
         },
       });
-      if (data?.checkCode) {
-        navigation.navigate('ChangePassword', {email: email});
+      if (data?.active) {
+        navigation.navigate('Login');
       } else {
         Alert.alert('ERROR', JSON.stringify("Code doesn't match"));
       }
@@ -42,7 +42,23 @@ const ConfirmationCode = () => {
       Alert.alert('ERROR', JSON.stringify(error));
     }
   };
-
+  const _userActive = async () => {
+    try {
+      const {data} = await active({
+        variables: {
+          email: email,
+          code: Number(code),
+        },
+      });
+      if (data?.active) {
+        navigation.navigate('Login');
+      } else {
+        Alert.alert('ERROR', JSON.stringify("Code doesn't match"));
+      }
+    } catch (error) {
+      Alert.alert('ERROR', JSON.stringify(error));
+    }
+  };
   return (
     <View
       style={[
@@ -160,7 +176,7 @@ const ConfirmationCode = () => {
   );
 };
 
-export default ConfirmationCode;
+export default UserActive;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,6 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {normalize, Style} from '../../style/Style';
+import {AppTheme, normalize, Style} from '../../style/Style';
+import {useTheme} from '@react-navigation/native';
 interface Props {
   data: {
     title: string;
@@ -10,10 +11,17 @@ interface Props {
   index: number;
 }
 const MyBooksCard: React.FC<Props> = ({data, index}) => {
+  const {colors, dark} = useTheme() as AppTheme;
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      style={[styles.container, {marginTop: normalize(15)}]}>
+      style={[
+        styles.container,
+        {
+          marginTop: normalize(15),
+          borderRadius: 10,
+        },
+      ]}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <View>
           <Image
@@ -24,8 +32,14 @@ const MyBooksCard: React.FC<Props> = ({data, index}) => {
           />
         </View>
         <View style={{marginLeft: normalize(10)}}>
-          <Text style={styles.title}>{data.title}</Text>
-          <Text style={styles.author}>{data.author}</Text>
+          <Text style={[styles.title, {color: colors.text}]}>{data.title}</Text>
+          <Text
+            style={[
+              styles.author,
+              {color: dark ? colors.text : colors.buttonBorderColor},
+            ]}>
+            {data.author}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>

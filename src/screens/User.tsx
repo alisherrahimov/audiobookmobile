@@ -1,8 +1,8 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Header from './components/Header';
-import {useNavigation} from '@react-navigation/native';
-import {normalize, Style} from '../style/Style';
+import {useNavigation, useTheme} from '@react-navigation/native';
+import {AppTheme, normalize, Style} from '../style/Style';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../image/intro/images';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -10,8 +10,9 @@ import {NavigationType} from '../types/NavigationType';
 
 const User = () => {
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
+  const {colors, dark} = useTheme() as AppTheme;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: colors.background}]}>
       <Header
         title="Profile"
         addButton={true}
@@ -33,7 +34,7 @@ const User = () => {
               marginRight: 5,
               marginTop: 5,
             }}>
-            <SvgXml xml={images.edit} width={20} height={20} />
+            <SvgXml xml={images.edit(colors.text)} width={20} height={20} />
           </View>
           <Image
             source={{
@@ -58,14 +59,19 @@ const User = () => {
                 flexDirection: 'row',
                 flex: 1,
               }}>
-              <Text style={[styles.author, {alignSelf: 'flex-start'}]}>
-                Display Name
+              <Text style={[styles.author, {color: colors.text}]}>
+                Username
               </Text>
-              <Text style={styles.title}>Notifications</Text>
+              <Text style={[styles.title, {color: colors.text}]}>johndoe</Text>
             </View>
           </View>
         </View>
-        <View style={[styles.free, {height: 3}]} />
+        <View
+          style={[
+            styles.free,
+            {height: 3, backgroundColor: colors.textInputBackgroundColor},
+          ]}
+        />
         <View
           style={{
             marginHorizontal: normalize(25),
@@ -80,12 +86,19 @@ const User = () => {
                 flexDirection: 'row',
                 flex: 1,
               }}>
-              <Text style={styles.author}>Username</Text>
-              <Text style={styles.title}>johndoe</Text>
+              <Text style={[styles.author, {color: colors.text}]}>Emaile</Text>
+              <Text style={[styles.title, {color: colors.text}]}>
+                john@mail.com
+              </Text>
             </View>
           </View>
         </View>
-        <View style={[styles.free, {height: 3}]} />
+        <View
+          style={[
+            styles.free,
+            {height: 3, backgroundColor: colors.textInputBackgroundColor},
+          ]}
+        />
         <View
           style={{
             marginHorizontal: normalize(25),
@@ -100,12 +113,19 @@ const User = () => {
                 flexDirection: 'row',
                 flex: 1,
               }}>
-              <Text style={styles.author}>Emaile</Text>
-              <Text style={styles.title}>john@mail.com</Text>
+              <Text style={[styles.author, {color: colors.text}]}>Phone</Text>
+              <Text style={[styles.title, {color: colors.text}]}>
+                +1234567890
+              </Text>
             </View>
           </View>
         </View>
-        <View style={[styles.free, {height: 3}]} />
+        <View
+          style={[
+            styles.free,
+            {height: 3, backgroundColor: colors.textInputBackgroundColor},
+          ]}
+        />
         <View
           style={{
             marginHorizontal: normalize(25),
@@ -120,32 +140,21 @@ const User = () => {
                 flexDirection: 'row',
                 flex: 1,
               }}>
-              <Text style={styles.author}>Phone</Text>
-              <Text style={styles.title}>+1234567890</Text>
+              <Text style={[styles.author, {color: colors.text}]}>
+                Date Birth
+              </Text>
+              <Text style={[styles.title, {color: colors.text}]}>
+                01 January 2001
+              </Text>
             </View>
           </View>
         </View>
-        <View style={[styles.free, {height: 3}]} />
         <View
-          style={{
-            marginHorizontal: normalize(25),
-            marginTop: normalize(15),
-            marginBottom: normalize(10),
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexDirection: 'row',
-                flex: 1,
-              }}>
-              <Text style={styles.author}>Date Birth</Text>
-              <Text style={styles.title}>01 January 2001</Text>
-            </View>
-          </View>
-        </View>
-        <View style={[styles.free, {height: 3}]} />
+          style={[
+            styles.free,
+            {height: 3, backgroundColor: colors.textInputBackgroundColor},
+          ]}
+        />
       </View>
     </View>
   );

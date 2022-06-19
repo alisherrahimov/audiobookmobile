@@ -3,7 +3,6 @@ import React from 'react';
 import Header from './components/Header';
 import BookCard from './components/BookCard';
 import {useRoute} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeTabScreenProps, NavigationType} from '../types/NavigationType';
 
 const Books = () => {
@@ -13,7 +12,7 @@ const Books = () => {
     <View style={styles.container}>
       <Header title={title} />
       <FlatList
-        contentContainerStyle={{alignSelf: 'center'}}
+        contentContainerStyle={{alignSelf: 'center', marginTop: 10}}
         numColumns={2}
         data={[
           {id: 1, author: 'Laurie Forest', title: 'The Black Witch'},
