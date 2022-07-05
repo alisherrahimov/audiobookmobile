@@ -57,7 +57,7 @@ const ForgetPassword = () => {
               styles.text,
               {color: dark ? '#fff' : Style.darkColor.borderColor},
             ]}>
-            Forget Password
+            Parolni tiklash
           </Text>
           <View style={{marginTop: normalize(15)}}>
             <Text
@@ -68,8 +68,7 @@ const ForgetPassword = () => {
                   color: dark ? '#fff' : Style.darkColor.borderColor,
                 },
               ]}>
-              Please fill email or phone number and we'll send you a link to get
-              back into your account.
+              Parolni tiklash uchun iltimos email manzilingizni kiriting!
             </Text>
           </View>
           <View style={{marginTop: normalize(15)}}>
@@ -101,7 +100,7 @@ const ForgetPassword = () => {
               loading={loading}
               color={Style.buttonColor}
               textColor={'#fff'}
-              title="Submit"
+              title="Tadiqlash"
               height={normalize(50)}
             />
           </View>
@@ -110,7 +109,7 @@ const ForgetPassword = () => {
               onPress={() => navigation.goBack()}
               color={dark ? Style.darkTextInputColor : '#fff'}
               textColor={dark ? '#fff' : Style.buttonColor}
-              title="Cancel"
+              title="Orqaga"
               borderColor={dark ? '#fff' : Style.buttonColor}
               borderWidth={1}
               height={normalize(50)}

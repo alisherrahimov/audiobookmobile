@@ -63,7 +63,7 @@ const ConfirmationCode = () => {
               styles.text,
               {color: dark ? '#fff' : Style.darkColor.borderColor},
             ]}>
-            Confirmation Code
+            Kodni Tasdiqlash
           </Text>
           <View style={{marginTop: normalize(15)}}>
             <Text
@@ -74,16 +74,18 @@ const ConfirmationCode = () => {
                   color: dark ? '#fff' : Style.darkColor.borderColor,
                 },
               ]}>
-              Enter the confirmation code we sent to {email}
+              Biz shu email {email} manzilingizga kodni yubordik, iltimos kodni
+              tasdiqlang!
             </Text>
           </View>
           <View style={{marginTop: normalize(15)}}>
             <View>
               <TextInput
                 selectionColor={Style.buttonColor}
-                placeholder={'Confirmation Code'}
+                placeholder={'Kodni kiriting'}
                 onChangeText={text => setCode(text)}
                 placeholderTextColor={Style.placeholderColor}
+                keyboardType="number-pad"
                 style={[
                   styles.input,
                   {
@@ -111,7 +113,7 @@ const ConfirmationCode = () => {
                   color: dark ? '#fff' : Style.darkColor.borderColor,
                 },
               ]}>
-              Didn’t receive the code?
+              Kodni olmadingizmi?
             </Text>
             <TouchableOpacity
               style={{
@@ -127,7 +129,7 @@ const ConfirmationCode = () => {
                     fontFamily: Style.fontFamily.bold,
                   },
                 ]}>
-                Resend
+                Yana yuborish
               </Text>
             </TouchableOpacity>
           </View>
@@ -139,7 +141,7 @@ const ConfirmationCode = () => {
               loading={loading}
               color={Style.buttonColor}
               textColor={'#fff'}
-              title="Submit"
+              title="Tasdiqlash"
               height={normalize(50)}
             />
           </View>
@@ -148,7 +150,7 @@ const ConfirmationCode = () => {
               onPress={() => navigation.goBack()}
               color={dark ? Style.darkTextInputColor : '#fff'}
               textColor={dark ? '#fff' : Style.buttonColor}
-              title="Cancel"
+              title="Orqaga"
               borderColor={dark ? '#fff' : Style.buttonColor}
               borderWidth={1}
               height={normalize(50)}

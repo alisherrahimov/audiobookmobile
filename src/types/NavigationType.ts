@@ -31,6 +31,7 @@ export type NavigationType = {
   UserActive: {
     email: string;
   };
+  Book: any;
 };
 export type RootStackScreenProps<T extends keyof NavigationType> =
   StackScreenProps<NavigationType, T>;

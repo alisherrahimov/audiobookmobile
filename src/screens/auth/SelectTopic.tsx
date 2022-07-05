@@ -37,18 +37,19 @@ const SelectTopic = () => {
             <Text
               style={[
                 styles.welcome,
+
                 {color: dark ? '#fff' : Style.darkColor.borderColor},
               ]}>
-              Personalize Suggestion
+              O'zingizga yoqgan maqola turini tanlang!
             </Text>
           </View>
-          <View>
+          <View style={{marginTop: normalize(10)}}>
             <Text
               style={[
                 styles.by,
                 {color: dark ? '#fff' : Style.darkColor.borderColor},
               ]}>
-              Choose{' '}
+              O'zingizga yoqgan{' '}
               <Text
                 style={[
                   {
@@ -56,9 +57,9 @@ const SelectTopic = () => {
                     color: dark ? '#fff' : Style.darkColor.borderColor,
                   },
                 ]}>
-                min. 3 topic
+                minimalni 3 mavzuni tanlang
               </Text>{' '}
-              you like, we will give you more often that relate to it.
+              va ilovani davom ettiring!
             </Text>
           </View>
 
@@ -87,8 +88,8 @@ const SelectTopic = () => {
                 styles.by,
                 {color: dark ? '#fff' : Style.darkColor.borderColor},
               ]}>
-              By personalize your account, we can help you to find what you
-              like.
+              Bu sizga o'zingizga yoqadigan mavzularni ko'rsatishda bizga yordam
+              beradi!
             </Text>
           </View>
 
@@ -99,7 +100,7 @@ const SelectTopic = () => {
               }}
               color={Style.buttonColor}
               textColor={'#fff'}
-              title="Submit"
+              title="Davom etish"
               height={normalize(50)}
             />
           </View>
@@ -108,7 +109,7 @@ const SelectTopic = () => {
               onPress={() => navigation.goBack()}
               color={dark ? Style.darkTextInputColor : '#fff'}
               textColor={dark ? '#fff' : Style.buttonColor}
-              title="Skip"
+              title="O'tkazib yuborish"
               borderColor={dark ? '#fff' : Style.buttonColor}
               borderWidth={1}
               height={normalize(50)}
@@ -150,7 +151,7 @@ const Ready: React.FC<Props> = ({navigation, dark}) => {
                 color: dark ? '#fff' : Style.darkColor.borderColor,
               },
             ]}>
-            You are ready to go!
+            Hisobingiz saqlandi rahmat!
           </Text>
         </View>
         <View>
@@ -163,8 +164,7 @@ const Ready: React.FC<Props> = ({navigation, dark}) => {
                 color: dark ? '#fff' : Style.darkColor.borderColor,
               },
             ]}>
-            Congratulation, any interesting topics will be shortly in your
-            hands.
+            Tabriklaymiz, qiziqishlaringiz buyicha maqolalar chiqib boradi
           </Text>
         </View>
         <View style={{marginTop: normalize(15), width: '100%'}}>
@@ -174,7 +174,7 @@ const Ready: React.FC<Props> = ({navigation, dark}) => {
             }}
             color={Style.buttonColor}
             textColor={'#fff'}
-            title="Submit"
+            title="Davom etish"
             height={normalize(50)}
           />
         </View>
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     color: Style.buttonColor,
   },
   welcome: {
-    fontSize: Style.fontSize.small,
+    fontSize: Style.fontSize.medium,
     fontFamily: Style.fontFamily.bold,
     color: '#000',
   },

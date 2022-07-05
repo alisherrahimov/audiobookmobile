@@ -1,7 +1,7 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {normalize} from '../../style/Style';
-import {useNavigation} from '@react-navigation/native';
+import {AppTheme, normalize} from '../../style/Style';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 interface Props {
@@ -9,6 +9,8 @@ interface Props {
   index: number;
 }
 const BestSellerCard: React.FC<Props> = ({index, item}) => {
+  const {colors, dark} = useTheme() as AppTheme;
+
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   return (
     <TouchableOpacity
@@ -18,9 +20,17 @@ const BestSellerCard: React.FC<Props> = ({index, item}) => {
       }}
       style={[
         styles.container,
-        {margin: index % 2 == 0 ? 18 : undefined, marginTop: 18},
+        {
+          margin: index % 2 == 0 ? 18 : undefined,
+          marginTop: 18,
+          backgroundColor: colors.buttonColor,
+        },
       ]}>
-      <Text>{index}</Text>
+      <Image
+        source={{uri: `http://192.168.1.2:5000/${item?.image}`}}
+        resizeMode="stretch"
+        style={styles.image}
+      />
     </TouchableOpacity>
   );
 };
@@ -33,6 +43,11 @@ const styles = StyleSheet.create({
     width: normalize(240),
     height: normalize(130),
     backgroundColor: 'red',
+    borderRadius: 10,
+  },
+  image: {
+    width: normalize(240),
+    height: normalize(130),
     borderRadius: 10,
   },
 });

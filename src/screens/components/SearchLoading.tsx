@@ -9,49 +9,20 @@ import {
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
-import {normalize, Style} from '../../style/Style';
+import {AppTheme, normalize, Style} from '../../style/Style';
 import Input from '../components/Input';
 
 import BookCard from '../components/BookCard';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 const SearchLoading = () => {
+  const {dark, colors} = useTheme() as AppTheme;
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          width: '90%',
-          alignSelf: 'center',
-          alignItems: 'flex-end',
-          height: normalize(80),
-          paddingBottom: 10,
-        }}>
-        <SvgXml xml={images.logoname} />
-        <TouchableOpacity onPress={() => {}}>
-          <SvgXml xml={images.setting} />
-        </TouchableOpacity>
-      </View>
-      <View
-        style={[
-          {
-            width: '90%',
-            alignSelf: 'center',
-            marginTop: normalize(30),
-          },
-        ]}>
-        <View>
-          <Text style={styles.explore}>Explore</Text>
-        </View>
-        <View style={{marginTop: normalize(10)}}>
-          <Input placeholder="Search Books and Author" />
-        </View>
-      </View>
-      <View style={{width: '90%', marginLeft: 20, marginTop: 15}}>
+      <View style={{width: '100%', marginLeft: 20, marginTop: 15}}>
         <View style={{flexDirection: 'row'}}>
           <View>
             <SkeletonPlaceholder>

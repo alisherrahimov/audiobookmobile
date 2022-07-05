@@ -7,16 +7,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import Header from './components/Header';
-import {normalize, Style} from '../style/Style';
+import {AppTheme, normalize, Style} from '../style/Style';
 import SelectButton from './components/SelectButton';
 import {Rating, AirbnbRating} from 'react-native-ratings';
 import CustomButton from './components/CustomButton';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../types/NavigationType';
 import ReViewCard from './components/ReViewCard';
+import {useGetBookQuery} from '../generated/graphql';
+import Loading from './components/Loading';
+import {URL} from '../../App';
 const DATA = [
   {
     id: 1,
@@ -48,33 +51,62 @@ const DATA = [
 ];
 const ReViewCardSize = Style.width - 45;
 const BookDetails = () => {
+  const {params} = useRoute();
+  const {item} = params;
+  const {data, loading, refetch} = useGetBookQuery({
+    variables: {bookId: item?.id},
+  });
   const scrollRef = useRef(null);
+  const {colors} = useTheme() as AppTheme;
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   const scrollX = new Animated.Value(0);
   let position = Animated.divide(scrollX, ReViewCardSize);
-
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <View style={styles.container}>
-      <Header title="Movies Name" />
+      <Header title={item?.title} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: normalize(20)}}>
         <View style={{alignSelf: 'center', marginTop: normalize(15)}}>
           <Image
             source={{
-              uri: 'https://images-na.ssl-images-amazon.com/images/I/91bsMwU7IzL._RI_.jpg',
+              uri: URL + item?.image,
             }}
             style={styles.image}
           />
         </View>
         <View style={styles.options}>
           <View>
-            <Text style={styles.title}>
-              {checkLength('Harry Potter and the Sorcer')}
+            <Text style={[styles.title, {color: colors.text}]}>
+              {checkLength(item?.title)}
             </Text>
           </View>
           <View>
-            <Text style={styles.author}>J.K. Rowling</Text>
+            <Text
+              style={[
+                styles.author,
+                {color: colors.text, fontSize: Style.fontSize.medium + 2},
+              ]}>
+              {data?.book?.author}
+            </Text>
+          </View>
+          <View>
+            <Text style={[styles.author, {color: colors.text}]}>
+              Kitob hajmi : {data?.book?.pdf_size}
+            </Text>
+          </View>
+          <View>
+            <Text style={[styles.author, {color: colors.text}]}>
+              Audio hajmi : {data?.book?.audio_size}
+            </Text>
+          </View>
+          <View>
+            <Text style={[styles.author, {color: colors.text}]}>
+              Audio davomiyligi : {data?.book?.duration}
+            </Text>
           </View>
           <View style={{marginTop: normalize(15)}}>
             <View
@@ -83,12 +115,15 @@ const BookDetails = () => {
                 flexDirection: 'row',
               }}>
               <Rating
-                type="custom"
-                ratingImage={require('../image/home/Star.png')}
                 ratingCount={5}
                 imageSize={15}
+                readonly={true}
+                startingValue={Number(data?.book?.star)}
+                ratingColor={colors.primary}
+                ratingTextColor={colors.text}
+                tintColor={colors.background}
+                ratingBackgroundColor={colors.background}
               />
-              <Text style={styles.ball}>4.4</Text>
             </View>
             <View
               style={{
@@ -107,6 +142,9 @@ const BookDetails = () => {
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <CustomButton
+                onPress={() => {
+                  navigation.navigate('Book', {item: data});
+                }}
                 color={Style.buttonColor}
                 title="Play Audio"
                 textColor="#fff"
@@ -126,25 +164,19 @@ const BookDetails = () => {
           </View>
           <View style={{marginTop: normalize(15)}}>
             <View>
-              <Text style={styles.summary}>Summary</Text>
+              <Text style={[styles.summary, {color: colors.text}]}>
+                Summary
+              </Text>
             </View>
             <View style={{marginTop: normalize(10)}}>
-              <Text style={styles.desc}>
-                Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-                amet sint. Velit officia consequat duis enim velit mollit.
-                Exercitation veniam consequat sunt nostrud amet. Mollit non
-                deserunt ullamco est sit aliqua dolor do amet sint. Velit
-                officia consequat duis enim velit mollit. Exercitation veniam
-                consequat sunt. Velit officia consequat duis enim velit mollit.
-                Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-                amet sint. Velit officia consequat duis enim velit mollit.
-                Exercitation veniam consequat sunt nostrud amet.
+              <Text style={[styles.desc, {color: colors.text}]}>
+                {data?.book?.description}
               </Text>
             </View>
           </View>
           <View style={{marginTop: normalize(10)}}>
             <View>
-              <Text style={styles.summary}>Review</Text>
+              <Text style={[styles.summary, {color: colors.text}]}>Review</Text>
             </View>
             <View style={{marginTop: normalize(10)}}>
               <ScrollView
@@ -256,6 +288,7 @@ const styles = StyleSheet.create({
     width: normalize(200),
     height: normalize(220),
     resizeMode: 'cover',
+    borderRadius: 10,
   },
   options: {
     width: '90%',
@@ -269,7 +302,7 @@ const styles = StyleSheet.create({
   },
   author: {
     fontFamily: Style.fontFamily.medium,
-    fontSize: Style.fontSize.small,
+    fontSize: Style.fontSize.small - 2,
     color: '#6A6A8B',
   },
   ball: {

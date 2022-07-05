@@ -1,4 +1,4 @@
-import {useTheme} from '@react-navigation/native';
+import {useRoute, useTheme} from '@react-navigation/native';
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
@@ -76,7 +76,7 @@ const CustomBottomTabBar: React.FC<Props> = ({
             onLongPress={onLongPress}
             style={[
               styles.TouchableOpacity,
-              {backgroundColor: colors.background},
+              {backgroundColor: colors.bottomTabColor},
             ]}>
             {isFocused
               ? route?.params?.FocusIcon('#fff')

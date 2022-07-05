@@ -37,6 +37,7 @@ export const Style = {
     borderColor: '#F3F1FE',
     ActiveBottomTabIconColor: '#4838D1',
     inActiveBottomTabIconColor: '#BBB1FA',
+    bottomTabColor: '#fafafa',
   },
   darkColor: {
     primary: '#000',
@@ -75,6 +76,7 @@ export interface AppTheme extends Theme {
     buttonDisabledTextColor?: string;
     textInputColor?: string;
     textInputBackgroundColor?: string;
+    bottomTabColor?: string;
   };
 }
 
@@ -92,6 +94,7 @@ export const darkSchema: AppTheme = {
     buttonTextColor: '#fff',
     buttonBorderColor: '#fff',
     placeholder: Style.placeholderColor,
+    bottomTabColor: '#0F0F29',
   },
 };
 
@@ -109,5 +112,6 @@ export const lightSchema: AppTheme = {
     placeholder: Style.placeholderColor,
     buttonTextColor: '#4838D1',
     buttonBorderColor: '#4838D1',
+    bottomTabColor: Style.lightColor.bottomTabColor,
   },
 };

@@ -14,7 +14,7 @@ import {AppTheme, normalize, Style} from '../../style/Style';
 import RecommendCard from '../components/RecommendCard';
 import BestSellerCard from '../components/BestSellerCard';
 import NewReleaseCard from '../components/NewReleaseCard';
-import {useNavigation, useTheme} from '@react-navigation/native';
+import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 import LoadingHome from '../components/LoadingHome';
@@ -22,9 +22,13 @@ import {useGetHomeQuery} from '../../generated/graphql';
 
 const Home = () => {
   const {dark, colors} = useTheme() as AppTheme;
+
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   const {data, loading, error, refetch} = useGetHomeQuery();
-
+  if (loading) {
+    return <LoadingHome />;
+  }
+  console.log(data);
   return (
     <SafeAreaView
       style={[styles.container, {backgroundColor: colors.background}]}>
@@ -58,7 +62,11 @@ const Home = () => {
           />
         </TouchableOpacity>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={refetch} />
+        }
+        showsVerticalScrollIndicator={false}>
         <View>
           <View style={styles.header}>
             <Text style={[styles.title, {color: colors.text}]}>Categories</Text>
@@ -75,11 +83,14 @@ const Home = () => {
                   <TouchableOpacity
                     style={[
                       styles.TouchableOpacity,
-                      {marginLeft: index === 0 ? 18 : undefined},
+                      {
+                        backgroundColor: colors.buttonColor,
+                        marginLeft: index === 0 ? 18 : undefined,
+                      },
                     ]}>
                     <Text
                       style={{
-                        color: colors.text,
+                        color: '#fff',
                         fontFamily: Style.fontFamily.medium,
                       }}>
                       {item?.name}

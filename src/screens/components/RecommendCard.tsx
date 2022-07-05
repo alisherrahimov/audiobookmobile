@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {AppTheme, normalize, Style} from '../../style/Style';
 import {useNavigation, useTheme} from '@react-navigation/native';
@@ -15,15 +15,21 @@ const RecommendCard: React.FC<Props> = ({index, item, children}) => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => {
-        navigation.navigate('BookDetails');
+        navigation.navigate('BookDetails', {item: item});
       }}
       style={[
         styles.container,
-        {margin: index % 2 == 0 ? 18 : undefined, marginTop: 18},
+        {
+          margin: index % 2 == 0 ? 18 : undefined,
+          marginTop: 18,
+          backgroundColor: colors.buttonColor,
+        },
       ]}>
-      <Text style={{fontFamily: Style.fontFamily.medium, color: colors.text}}>
-        {index}
-      </Text>
+      <Image
+        source={{uri: `http://192.168.1.2:5000/${item?.image}`}}
+        resizeMode="cover"
+        style={styles.image}
+      />
     </TouchableOpacity>
   );
 };
@@ -35,7 +41,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: normalize(160),
     height: normalize(220),
-    backgroundColor: '#F5F5FA',
+    borderRadius: 10,
+  },
+  image: {
+    width: normalize(160),
+    height: normalize(220),
     borderRadius: 10,
   },
 });

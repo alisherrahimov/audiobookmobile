@@ -17,7 +17,7 @@ import {NavigationType} from '../../types/NavigationType';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useLoginMutation} from '../../generated/graphql';
 
-const Login = () => {
+const Login: React.FC = () => {
   const {colors, dark} = useTheme() as AppTheme;
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   const [email, setEmail] = React.useState('');
@@ -33,11 +33,11 @@ const Login = () => {
           },
         },
       });
-      if (data?.login.error) {
+
+      if (data?.login.error && data !== null) {
         Alert.alert('ERROR', JSON.stringify(data.login.message));
       } else {
-        console.log(data);
-        navigation.navigate('Home');
+        navigation.navigate('BottomTab');
       }
     } catch (error) {
       Alert.alert('ERROR', JSON.stringify(error));
@@ -56,7 +56,7 @@ const Login = () => {
         </View>
         <View>
           <Text style={[styles.text, {color: colors.text}]}>
-            Login to Your Account
+            Dasturga kirish
           </Text>
           <View style={{marginTop: normalize(15)}}>
             <View>
@@ -82,7 +82,7 @@ const Login = () => {
             <View>
               <TextInput
                 selectionColor={Style.buttonColor}
-                placeholder={'Password'}
+                placeholder={'Parolingiz'}
                 secureTextEntry={true}
                 onChangeText={text => setPassword(text)}
                 placeholderTextColor={Style.placeholderColor}
@@ -105,7 +105,7 @@ const Login = () => {
               }}
               color={Style.buttonColor}
               textColor={'#fff'}
-              title="Login"
+              title="Kirish"
               loading={loading}
               height={normalize(50)}
             />
@@ -115,12 +115,12 @@ const Login = () => {
               onPress={() => {
                 navigation.navigate('ForgetPassword');
               }}>
-              <Text style={styles.forgotPassword}>Forgot Password?</Text>
+              <Text style={styles.forgotPassword}>Parolni unutdingizmi?</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={{marginTop: normalize(25), alignSelf: 'center'}}>
-          <Text style={[style.text, {color: colors.text}]}>Or login with</Text>
+          <Text style={[style.text, {color: colors.text}]}>Yoki</Text>
         </View>
         <View
           style={{
@@ -152,15 +152,6 @@ const Login = () => {
                 height={normalize(30)}
               />
             </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={[styles.touch, {backgroundColor: colors.background}]}>
-              <SvgXml
-                xml={images.twitter}
-                width={normalize(30)}
-                height={normalize(30)}
-              />
-            </TouchableOpacity>
           </View>
         </View>
         <View
@@ -170,7 +161,7 @@ const Login = () => {
             flexDirection: 'row',
           }}>
           <Text style={[style.text, {color: colors.text}]}>
-            Don't have an account?
+            Hisobingiz yo'qmi ?
           </Text>
           <TouchableOpacity
             activeOpacity={0.8}
@@ -186,7 +177,7 @@ const Login = () => {
                   fontFamily: Style.fontFamily.bold,
                 },
               ]}>
-              Register
+              Ro'yxatdan o'tish
             </Text>
           </TouchableOpacity>
         </View>

@@ -1,19 +1,26 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {AppTheme, normalize, Style} from '../../style/Style';
-import {useTheme} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
+import {URL} from '../../../App';
 interface Props {
   data: {
     title: string;
     id: number;
     author: string;
+    image: string;
   };
   index: number;
 }
 const BookCard: React.FC<Props> = ({data, index}) => {
+  const navigation = useNavigation();
   const {colors, dark} = useTheme() as AppTheme;
+  console.log(data);
   return (
     <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('BookDetails', {item: data});
+      }}
       activeOpacity={0.8}
       key={index}
       style={{
@@ -27,11 +34,14 @@ const BookCard: React.FC<Props> = ({data, index}) => {
           borderRadius: 10,
         }}
         source={{
-          uri: 'https://img.freepik.com/free-psd/book-mockup-with-shadow-overlay_23-2149209542.jpg?t=st=1654465604~exp=1654466204~hmac=d31c49f64c5ac8c33239cd2f729213e9ba023ebf4eaa7772b3bf53104ba4fd2c&w=740',
+          uri: URL + data?.image,
         }}
         resizeMode="cover"
       />
-      <Text style={[styles.title, {color: colors.text}]}>{data.title}</Text>
+      <Text
+        style={[styles.title, {color: colors.text, maxWidth: normalize(135)}]}>
+        {data.title}
+      </Text>
       <Text
         style={[
           styles.author,
@@ -50,9 +60,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: Style.fontSize.small,
+    fontSize: Style.fontSize.small - 3,
     fontFamily: Style.fontFamily.medium,
     color: '#000',
+    marginTop: 5,
   },
   author: {
     fontSize: Style.fontSize.small - 3,

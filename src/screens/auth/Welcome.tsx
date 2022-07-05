@@ -31,7 +31,7 @@ const Welcome = () => {
                 styles.welcome,
                 {color: dark ? '#fff' : Style.orangeColor},
               ]}>
-              WELCOME !
+              XUSH KELIBSIZ !
             </Text>
           </View>
           <View>
@@ -40,17 +40,8 @@ const Welcome = () => {
                 styles.find,
                 {color: dark ? '#fff' : Style.darkColor.borderColor},
               ]}>
-              Find what{'\n'}you are{'\n'}looking for
-            </Text>
-          </View>
-          <View>
-            <Text
-              style={[
-                styles.by,
-                {color: dark ? '#fff' : Style.darkColor.borderColor},
-              ]}>
-              By personalize your account, we can help you to find what you
-              like.
+              Siz bizning dasturimizda{'\n'}o'zingizga yoqadigan kitoblarni
+              {'\n'}albatta topasiz!
             </Text>
           </View>
 
@@ -61,7 +52,7 @@ const Welcome = () => {
               }}
               color={Style.buttonColor}
               textColor={'#fff'}
-              title="Personalize Your Account"
+              title="Davom etish"
               height={normalize(50)}
             />
           </View>
@@ -72,7 +63,7 @@ const Welcome = () => {
               }
               color={dark ? Style.darkTextInputColor : '#fff'}
               textColor={dark ? '#fff' : Style.buttonColor}
-              title="Skip"
+              title="O'tkazib yuborish"
               borderColor={dark ? '#fff' : Style.buttonColor}
               borderWidth={1}
               height={normalize(50)}
@@ -91,12 +82,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   find: {
-    fontSize: Style.fontSize.xxlarge + 25,
-    fontFamily: Style.fontFamily.thin,
+    fontSize: Style.fontSize.xxlarge,
+    fontFamily: Style.fontFamily.medium,
     color: Style.buttonColor,
   },
   welcome: {
-    fontSize: Style.fontSize.small,
+    fontSize: Style.fontSize.xxlarge,
     fontFamily: Style.fontFamily.bold,
     color: Style.orangeColor,
   },

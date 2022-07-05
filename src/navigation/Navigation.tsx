@@ -23,15 +23,20 @@ import {SvgXml} from 'react-native-svg';
 import {images} from '../image/intro/images';
 import Books from '../screens/Books';
 import BookDetails from '../screens/BookDetails';
+import UserActive from '../screens/auth/UserActive';
+import Book from '../screens/Book';
 
 const TabNavigator = createBottomTabNavigator();
 const StackNavigator = createNativeStackNavigator<NavigationType>();
 const BottomTab = () => {
-  const {colors, dark} = useTheme() as AppTheme;
+  const {dark} = useTheme() as AppTheme;
   return (
     <TabNavigator.Navigator
       tabBar={props => <CustomBottomTabBar {...props} />}
-      screenOptions={{headerShown: false, tabBarHideOnKeyboard: true}}>
+      screenOptions={{
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+      }}>
       <TabNavigator.Screen
         name="Home"
         component={HomeStackNavigator}
@@ -84,6 +89,7 @@ const HomeStackNavigator = () => {
       <StackNavigator.Screen name="Settings" component={Settings} />
       <StackNavigator.Screen name="User" component={User} />
       <StackNavigator.Screen name="Error" component={Error} />
+      <StackNavigator.Screen name="Book" component={Book} />
     </StackNavigator.Navigator>
   );
 };
@@ -131,6 +137,7 @@ const AuthStackNavigator = () => {
       <StackNavigator.Screen name="Welcome" component={Welcome} />
       <StackNavigator.Screen name="SelectTopic" component={SelectTopic} />
       <StackNavigator.Screen name="Error" component={Error} />
+      <StackNavigator.Screen name="UserActive" component={UserActive} />
     </StackNavigator.Navigator>
   );
 };
@@ -139,7 +146,7 @@ const AppNavigator = () => {
   return (
     <StackNavigator.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName="AuthNavigator">
+      initialRouteName="BottomTab">
       <StackNavigator.Screen
         name="AuthNavigator"
         component={AuthStackNavigator}

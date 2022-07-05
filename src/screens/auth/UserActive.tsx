@@ -15,7 +15,11 @@ import CustomButton from '../components/CustomButton';
 import {style} from '../../style/Index';
 import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {HomeTabScreenProps, NavigationType} from '../../types/NavigationType';
+import {
+  HomeTabScreenProps,
+  NavigationType,
+  RootStackScreenProps,
+} from '../../types/NavigationType';
 import {useActiveMutation, useCheckCodeMutation} from '../../generated/graphql';
 
 const UserActive = () => {
@@ -42,23 +46,7 @@ const UserActive = () => {
       Alert.alert('ERROR', JSON.stringify(error));
     }
   };
-  const _userActive = async () => {
-    try {
-      const {data} = await active({
-        variables: {
-          email: email,
-          code: Number(code),
-        },
-      });
-      if (data?.active) {
-        navigation.navigate('Login');
-      } else {
-        Alert.alert('ERROR', JSON.stringify("Code doesn't match"));
-      }
-    } catch (error) {
-      Alert.alert('ERROR', JSON.stringify(error));
-    }
-  };
+
   return (
     <View
       style={[
@@ -79,7 +67,7 @@ const UserActive = () => {
               styles.text,
               {color: dark ? '#fff' : Style.darkColor.borderColor},
             ]}>
-            Confirmation Code
+            Kodni Tasdiqlash
           </Text>
           <View style={{marginTop: normalize(15)}}>
             <Text
@@ -90,14 +78,16 @@ const UserActive = () => {
                   color: dark ? '#fff' : Style.darkColor.borderColor,
                 },
               ]}>
-              Enter the confirmation code we sent to {email}
+              Biz shu email {email} manzilingizga kodni yubordik, iltimos kodni
+              tasdiqlang!
             </Text>
           </View>
           <View style={{marginTop: normalize(15)}}>
             <View>
               <TextInput
                 selectionColor={Style.buttonColor}
-                placeholder={'Confirmation Code'}
+                placeholder={'Kodni kiriting'}
+                keyboardType={'numeric'}
                 onChangeText={text => setCode(text)}
                 placeholderTextColor={Style.placeholderColor}
                 style={[
@@ -127,7 +117,7 @@ const UserActive = () => {
                   color: dark ? '#fff' : Style.darkColor.borderColor,
                 },
               ]}>
-              Didn’t receive the code?
+              Kodni olmadingizmi?
             </Text>
             <TouchableOpacity
               style={{
@@ -143,7 +133,7 @@ const UserActive = () => {
                     fontFamily: Style.fontFamily.bold,
                   },
                 ]}>
-                Resend
+                Yana yuborish
               </Text>
             </TouchableOpacity>
           </View>
@@ -155,7 +145,7 @@ const UserActive = () => {
               loading={loading}
               color={Style.buttonColor}
               textColor={'#fff'}
-              title="Submit"
+              title="Tasdiqlash"
               height={normalize(50)}
             />
           </View>
@@ -164,7 +154,7 @@ const UserActive = () => {
               onPress={() => navigation.goBack()}
               color={dark ? Style.darkTextInputColor : '#fff'}
               textColor={dark ? '#fff' : Style.buttonColor}
-              title="Cancel"
+              title="Orqaga"
               borderColor={dark ? '#fff' : Style.buttonColor}
               borderWidth={1}
               height={normalize(50)}

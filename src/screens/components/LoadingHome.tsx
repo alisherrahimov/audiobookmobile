@@ -9,17 +9,18 @@ import {
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
-import {normalize, Style} from '../../style/Style';
+import {AppTheme, normalize, Style} from '../../style/Style';
 
 import RecommendCard from '../components/RecommendCard';
 import BestSellerCard from '../components/BestSellerCard';
 import NewReleaseCard from '../components/NewReleaseCard';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 const LoadingHome = () => {
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
+  const {dark, colors} = useTheme() as AppTheme;
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -32,9 +33,21 @@ const LoadingHome = () => {
           height: normalize(80),
           paddingBottom: 10,
         }}>
-        <SvgXml xml={images.logoname} />
+        <SvgXml
+          xml={
+            dark
+              ? images.logoname('#fff')
+              : images.logoname(colors.buttonBorderColor)
+          }
+        />
         <TouchableOpacity disabled={true}>
-          <SvgXml xml={images.setting} />
+          <SvgXml
+            xml={
+              dark
+                ? images.setting('#fff')
+                : images.setting(colors.buttonBorderColor)
+            }
+          />
         </TouchableOpacity>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>

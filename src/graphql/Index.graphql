@@ -13,6 +13,7 @@ query getHome {
     recommended {
       image
       id
+      title
     }
     trend {
       image
@@ -21,6 +22,7 @@ query getHome {
     }
   }
   categories {
+    id
     name
   }
 }
@@ -37,7 +39,10 @@ mutation ForgetPassword($email: String) {
   }
 }
 mutation CheckCode($email: String, $code: Int) {
-  checkCode(email: $email, code: $code)
+  checkCode(email: $email, code: $code) {
+    error
+    message
+  }
 }
 mutation ResetPassword($email: String, $password: String) {
   resetPassword(email: $email, password: $password) {
@@ -45,22 +50,50 @@ mutation ResetPassword($email: String, $password: String) {
     message
   }
 }
-mutation Register(
-  $email: String
-  $date: String
-  $password: String
-  $username: String
-) {
-  register(
-    email: $email
-    date: $date
-    password: $password
-    username: $username
-  ) {
+mutation Register($email: String, $password: String, $username: String) {
+  register(email: $email, password: $password, username: $username) {
     error
     message
   }
 }
 mutation Active($email: String, $code: Int) {
   active(email: $email, code: $code)
+}
+
+query getBook($bookId: ID!) {
+  book(id: $bookId) {
+    audio_link
+    author
+    book_link
+    category {
+      id
+      name
+    }
+    description
+    downloads
+    id
+    image
+    page
+    review {
+      content
+      id
+      user {
+        image
+        username
+      }
+    }
+    star
+    title
+    pdf_size
+    audio_size
+    duration
+  }
+}
+mutation SearchBook($text: String) {
+  searchBook(text: $text) {
+    id
+    image
+    title
+    author
+  }
 }

@@ -6,8 +6,9 @@ import {SafeAreaProvider} from 'react-native-safe-area-view';
 import {useTheme} from '@react-navigation/native';
 StatusBar.setBackgroundColor('rgba(0,0,0,0)', true);
 StatusBar.setTranslucent(true);
+export const URL: string = 'http://192.168.1.2:5000/';
 const client = new ApolloClient({
-  uri: 'http://192.168.1.7:4000/graphql',
+  uri: 'http://192.168.1.2:4000/graphql',
   cache: new InMemoryCache(),
 });
 const App = () => {
