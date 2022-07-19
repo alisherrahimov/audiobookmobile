@@ -5,24 +5,25 @@ import {Rating, AirbnbRating} from 'react-native-ratings';
 import {useTheme} from '@react-navigation/native';
 interface Props {
   item?: {
-    id?: number;
-    author?: string;
-    rating?: number;
-    image?: string;
-    desc?: string;
-    date?: string;
+    user: {
+      username: string;
+      image: string;
+    };
+    rating: number;
+    content: string;
   };
   index: number;
 }
 const ReViewCard: React.FC<Props> = ({item, index}) => {
   const {colors} = useTheme() as AppTheme;
+  console.log(item);
   return (
     <View style={{width: Style.width - 35}}>
       <View style={{flexDirection: 'row'}}>
         <View>
           <Image
             source={{
-              uri: item?.image,
+              uri: item?.user?.image,
             }}
             style={styles.userImage}
           />
@@ -33,7 +34,7 @@ const ReViewCard: React.FC<Props> = ({item, index}) => {
             justifyContent: 'center',
           }}>
           <Text style={[styles.userName, {color: colors.text}]}>
-            {item?.author}
+            {item?.user?.username}
           </Text>
           <View
             style={{
@@ -45,7 +46,7 @@ const ReViewCard: React.FC<Props> = ({item, index}) => {
               ratingCount={5}
               imageSize={normalize(17)}
               readonly={true}
-              startingValue={3.5}
+              startingValue={item?.rating}
               ratingColor={colors.background}
               tintColor={colors.background}
             />
@@ -54,7 +55,7 @@ const ReViewCard: React.FC<Props> = ({item, index}) => {
         </View>
       </View>
       <View style={{marginTop: normalize(15)}}>
-        <Text style={styles.desc}>{item?.desc}</Text>
+        <Text style={styles.desc}>{item?.content}</Text>
       </View>
     </View>
   );

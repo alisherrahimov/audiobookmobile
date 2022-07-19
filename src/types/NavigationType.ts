@@ -21,6 +21,7 @@ export type NavigationType = {
   SelectTopic: any;
   Books: {
     title: string;
+    id: string;
   };
   BookDetails: any;
   GroupNavigator: any;

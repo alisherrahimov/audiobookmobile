@@ -44,7 +44,7 @@ export const Style = {
     textColor: '#fff',
     bottomTextColor: '#6A6A8B',
     backgroundColor: '#0F0F29',
-    borderColor: '#2E2E5D',
+    borderColor: '#4838D1',
     ActiveBottomTabIconColor: '#fff',
     inActiveBottomTabIconColor: '#BBB1FA',
   },

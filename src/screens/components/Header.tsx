@@ -3,7 +3,7 @@ import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
 import {AppTheme, normalize, Style} from '../../style/Style';
-import {useNavigation, useTheme} from '@react-navigation/native';
+import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 interface Props {
@@ -19,6 +19,8 @@ const Header: React.FC<Props> = ({
   onPress,
 }) => {
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
+  const route = useRoute();
+
   const {dark, colors} = useTheme() as AppTheme;
   const checkLength = (title: string) => {
     if (title.length > 25) {
@@ -97,6 +99,33 @@ const Header: React.FC<Props> = ({
           </TouchableOpacity>
         </View>
       )}
+      {route.name === 'BookDetails' ? (
+        <View
+          style={[
+            {
+              position: 'absolute',
+              justifyContent: 'center',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              marginTop: normalize(25),
+              marginRight: normalize(10),
+            },
+          ]}>
+          <TouchableOpacity
+            onPress={ButtonPress}
+            activeOpacity={0.8}
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: normalize(10),
+              borderRadius: 15,
+            }}>
+            <SvgXml xml={images.bookmark('#4838D1', 25, 25)} />
+            {/* <SvgXml xml={images.bookmarkfill('#4838D1')} /> */}
+          </TouchableOpacity>
+        </View>
+      ) : null}
     </View>
   );
 };

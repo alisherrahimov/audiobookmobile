@@ -4,6 +4,7 @@ import {AppTheme, normalize} from '../../style/Style';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
+import {URL} from '../../../App';
 interface Props {
   item?: {id?: string | null; image?: string | null} | null;
   index: number;
@@ -27,7 +28,7 @@ const BestSellerCard: React.FC<Props> = ({index, item}) => {
         },
       ]}>
       <Image
-        source={{uri: `http://192.168.1.2:5000/${item?.image}`}}
+        source={{uri: URL + `${item?.image}`}}
         resizeMode="stretch"
         style={styles.image}
       />
@@ -40,14 +41,13 @@ export default BestSellerCard;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: normalize(240),
-    height: normalize(130),
-    backgroundColor: 'red',
+    width: normalize(140),
+    height: normalize(140),
     borderRadius: 10,
   },
   image: {
-    width: normalize(240),
-    height: normalize(130),
+    width: normalize(140),
+    height: normalize(140),
     borderRadius: 10,
   },
 });

@@ -78,9 +78,12 @@ query getBook($bookId: ID!) {
       content
       id
       user {
+        id
         image
         username
       }
+      rating
+      createdAt
     }
     star
     title
@@ -95,5 +98,13 @@ mutation SearchBook($text: String) {
     image
     title
     author
+  }
+}
+mutation GetBookByCategory($id: String) {
+  getBookByCategory(id: $id) {
+    author
+    id
+    image
+    title
   }
 }

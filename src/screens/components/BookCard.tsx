@@ -4,18 +4,17 @@ import {AppTheme, normalize, Style} from '../../style/Style';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {URL} from '../../../App';
 interface Props {
-  data: {
-    title: string;
-    id: number;
-    author: string;
-    image: string;
-  };
+  data?: {
+    title?: string;
+    id?: number;
+    author?: string;
+    image?: string;
+  } | null;
   index: number;
 }
 const BookCard: React.FC<Props> = ({data, index}) => {
   const navigation = useNavigation();
   const {colors, dark} = useTheme() as AppTheme;
-  console.log(data);
   return (
     <TouchableOpacity
       onPress={() => {
@@ -40,14 +39,14 @@ const BookCard: React.FC<Props> = ({data, index}) => {
       />
       <Text
         style={[styles.title, {color: colors.text, maxWidth: normalize(135)}]}>
-        {data.title}
+        {data?.title}
       </Text>
       <Text
         style={[
           styles.author,
           {color: dark ? colors.text : colors.buttonBorderColor},
         ]}>
-        {data.author}
+        {data?.author}
       </Text>
     </TouchableOpacity>
   );

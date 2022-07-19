@@ -4,16 +4,13 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import React from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
 import {AppTheme, normalize, Style} from '../../style/Style';
-import Input from '../components/Input';
 import CustomButton from '../components/CustomButton';
-import {style} from '../../style/Index';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';

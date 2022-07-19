@@ -64,6 +64,7 @@ const BookDetails = () => {
   if (loading) {
     return <Loading />;
   }
+  console.log(data?.book);
   return (
     <View style={styles.container}>
       <Header title={item?.title} />
@@ -81,7 +82,7 @@ const BookDetails = () => {
         <View style={styles.options}>
           <View>
             <Text style={[styles.title, {color: colors.text}]}>
-              {checkLength(item?.title)}
+              {item?.title}
             </Text>
           </View>
           <View>
@@ -105,7 +106,10 @@ const BookDetails = () => {
           </View>
           <View>
             <Text style={[styles.author, {color: colors.text}]}>
-              Audio davomiyligi : {data?.book?.duration}
+              Audio davomiyligi :{' '}
+              {new Date(Number(data?.book?.duration) * 1000)
+                .toISOString()
+                .substr(11, 8)}
             </Text>
           </View>
           <View style={{marginTop: normalize(15)}}>
@@ -131,7 +135,7 @@ const BookDetails = () => {
                 flexWrap: 'wrap',
                 marginTop: normalize(10),
               }}>
-              {[{id: 1, title: 'dramma'}].map((_, i) => (
+              {data?.book?.category.map((_, i) => (
                 <View style={{marginLeft: i == 0 ? 0 : 5, marginTop: 5}}>
                   <SelectButton categories={_} index={i} />
                 </View>
@@ -189,7 +193,7 @@ const BookDetails = () => {
                 )}
                 horizontal
                 pagingEnabled>
-                {DATA.map((item, index) => {
+                {data?.book?.review?.map((item, index) => {
                   return <ReViewCard item={item} index={index} />;
                 })}
               </ScrollView>
@@ -204,7 +208,7 @@ const BookDetails = () => {
                     justifyContent: 'center',
                     flexDirection: 'row',
                   }}>
-                  {DATA.map((_, i) => {
+                  {data?.book?.review?.map((_, i) => {
                     let opacity = position.interpolate({
                       inputRange: [i - 1, i, i + 1],
                       outputRange: [0.3, 1, 0.3],

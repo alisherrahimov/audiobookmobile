@@ -4,6 +4,7 @@ import {AppTheme, normalize} from '../../style/Style';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
+import {URL} from '../../../App';
 interface Props {
   item?: {id?: string | null; image?: string | null} | null;
   index: number;
@@ -26,7 +27,7 @@ const NewReleaseCard: React.FC<Props> = ({index, item}) => {
         },
       ]}>
       <Image
-        source={{uri: `http://192.168.1.2:5000/${item?.image}`}}
+        source={{uri: URL + `${item?.image}`}}
         resizeMode="cover"
         style={styles.image}
       />

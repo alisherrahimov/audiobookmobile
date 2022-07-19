@@ -59,7 +59,8 @@ export type MutationCreateCategoryArgs = {
 export type MutationCreateReviewArgs = {
   bookId: Scalars['ID'];
   content: Scalars['String'];
-  userID: Scalars['String'];
+  rating: Scalars['Float'];
+  userId: Scalars['String'];
 };
 
 
@@ -74,7 +75,7 @@ export type MutationForgetPasswordArgs = {
 
 
 export type MutationGetBookByCategoryArgs = {
-  input?: InputMaybe<GetByCategory>;
+  id?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -170,7 +171,7 @@ export type Book = {
   createdAt?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
   downloads?: Maybe<Scalars['Int']>;
-  duration?: Maybe<Scalars['String']>;
+  duration?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['ID']>;
   image?: Maybe<Scalars['String']>;
   page?: Maybe<Scalars['Int']>;
@@ -240,6 +241,7 @@ export type Review = {
   content?: Maybe<Scalars['String']>;
   createdAt: Scalars['Date'];
   id?: Maybe<Scalars['ID']>;
+  rating?: Maybe<Scalars['Float']>;
   updatedAt: Scalars['Date'];
   user?: Maybe<User>;
 };
@@ -325,7 +327,7 @@ export type GetBookQueryVariables = Exact<{
 }>;
 
 
-export type GetBookQuery = { __typename?: 'Query', book?: { __typename?: 'book', audio_link?: string | null, author?: string | null, book_link?: string | null, description?: string | null, downloads?: number | null, id?: string | null, image?: string | null, page?: number | null, star?: number | null, title?: string | null, pdf_size?: string | null, audio_size?: string | null, duration?: string | null, category?: Array<{ __typename?: 'category', id?: string | null, name?: string | null } | null> | null, review?: Array<{ __typename?: 'review', content?: string | null, id?: string | null, user?: { __typename?: 'user', image?: string | null, username?: string | null } | null } | null> | null } | null };
+export type GetBookQuery = { __typename?: 'Query', book?: { __typename?: 'book', audio_link?: string | null, author?: string | null, book_link?: string | null, description?: string | null, downloads?: number | null, id?: string | null, image?: string | null, page?: number | null, star?: number | null, title?: string | null, pdf_size?: string | null, audio_size?: string | null, duration?: number | null, category?: Array<{ __typename?: 'category', id?: string | null, name?: string | null } | null> | null, review?: Array<{ __typename?: 'review', content?: string | null, id?: string | null, rating?: number | null, createdAt: any, user?: { __typename?: 'user', id?: string | null, image?: string | null, username?: string | null } | null } | null> | null } | null };
 
 export type SearchBookMutationVariables = Exact<{
   text?: InputMaybe<Scalars['String']>;
@@ -333,6 +335,13 @@ export type SearchBookMutationVariables = Exact<{
 
 
 export type SearchBookMutation = { __typename?: 'Mutation', searchBook?: Array<{ __typename?: 'book', id?: string | null, image?: string | null, title?: string | null, author?: string | null } | null> | null };
+
+export type GetBookByCategoryMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetBookByCategoryMutation = { __typename?: 'Mutation', getBookByCategory?: Array<{ __typename?: 'book', author?: string | null, id?: string | null, image?: string | null, title?: string | null } | null> | null };
 
 
 export const GetHomeDocument = gql`
@@ -617,9 +626,12 @@ export const GetBookDocument = gql`
       content
       id
       user {
+        id
         image
         username
       }
+      rating
+      createdAt
     }
     star
     title
@@ -693,3 +705,39 @@ export function useSearchBookMutation(baseOptions?: Apollo.MutationHookOptions<S
 export type SearchBookMutationHookResult = ReturnType<typeof useSearchBookMutation>;
 export type SearchBookMutationResult = Apollo.MutationResult<SearchBookMutation>;
 export type SearchBookMutationOptions = Apollo.BaseMutationOptions<SearchBookMutation, SearchBookMutationVariables>;
+export const GetBookByCategoryDocument = gql`
+    mutation GetBookByCategory($id: String) {
+  getBookByCategory(id: $id) {
+    author
+    id
+    image
+    title
+  }
+}
+    `;
+export type GetBookByCategoryMutationFn = Apollo.MutationFunction<GetBookByCategoryMutation, GetBookByCategoryMutationVariables>;
+
+/**
+ * __useGetBookByCategoryMutation__
+ *
+ * To run a mutation, you first call `useGetBookByCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGetBookByCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [getBookByCategoryMutation, { data, loading, error }] = useGetBookByCategoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetBookByCategoryMutation(baseOptions?: Apollo.MutationHookOptions<GetBookByCategoryMutation, GetBookByCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GetBookByCategoryMutation, GetBookByCategoryMutationVariables>(GetBookByCategoryDocument, options);
+      }
+export type GetBookByCategoryMutationHookResult = ReturnType<typeof useGetBookByCategoryMutation>;
+export type GetBookByCategoryMutationResult = Apollo.MutationResult<GetBookByCategoryMutation>;
+export type GetBookByCategoryMutationOptions = Apollo.BaseMutationOptions<GetBookByCategoryMutation, GetBookByCategoryMutationVariables>;

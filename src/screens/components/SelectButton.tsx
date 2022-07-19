@@ -3,9 +3,9 @@ import React, {useState} from 'react';
 import {normalize, Style} from '../../style/Style';
 import {useTheme} from '@react-navigation/native';
 interface Props {
-  categories: {
-    id: number;
-    title: string;
+  categories?: {
+    id: string;
+    name: string;
   };
   index: number;
 }
@@ -14,7 +14,11 @@ const SelectButton: React.FC<Props> = ({categories, index}) => {
   const [check, setCheck] = useState(false);
   const [data, setData] = useState<{id: number | undefined}[]>();
   return (
-    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+    <View
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       <TouchableOpacity
         activeOpacity={0.5}
         style={[
@@ -45,7 +49,7 @@ const SelectButton: React.FC<Props> = ({categories, index}) => {
             styles.title,
             {color: dark ? '#fff' : check ? '#fff' : Style.buttonColor},
           ]}>
-          {categories.title}
+          {categories?.name}
         </Text>
       </TouchableOpacity>
     </View>

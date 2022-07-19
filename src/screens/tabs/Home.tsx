@@ -81,6 +81,12 @@ const Home = () => {
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {data?.categories?.map((item, index: number) => (
                   <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Books', {
+                        title: item?.name,
+                        id: item?.id,
+                      });
+                    }}
                     style={[
                       styles.TouchableOpacity,
                       {

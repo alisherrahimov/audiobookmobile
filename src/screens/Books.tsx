@@ -1,28 +1,36 @@
-import {FlatList, StyleSheet, View} from 'react-native';
-import React from 'react';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
 import Header from './components/Header';
 import BookCard from './components/BookCard';
 import {useRoute} from '@react-navigation/native';
 import {HomeTabScreenProps, NavigationType} from '../types/NavigationType';
+import {useGetBookByCategoryMutation} from '../generated/graphql';
+import Loading from './components/Loading';
 
 const Books = () => {
   const route = useRoute<HomeTabScreenProps<'Books'>['route']>();
-  const {title} = route.params;
+  const {title, id} = route.params;
+  const [book, {loading, data, error}] = useGetBookByCategoryMutation();
+  useEffect(() => {
+    book({variables: {id: id}});
+  }, []);
+  if (error) {
+    return <Text>{JSON.stringify(error)}</Text>;
+  }
   return (
     <View style={styles.container}>
       <Header title={title} />
-      <FlatList
-        contentContainerStyle={{alignSelf: 'center', marginTop: 10}}
-        numColumns={2}
-        data={[
-          {id: 1, author: 'Laurie Forest', title: 'The Black Witch'},
-          {id: 2, author: 'C.J Archer', title: 'The Prisoner’s Key'},
-          {id: 3, author: 'Laurie Forest', title: 'Light Mage'},
-          {id: 4, author: 'Emily R. King', title: 'The Fire Queen'},
-        ]}
-        keyExtractor={({id}) => id.toString()}
-        renderItem={({index, item}) => <BookCard data={item} index={index} />}
-      />
+      {loading ? (
+        <Loading />
+      ) : (
+        <FlatList
+          contentContainerStyle={{alignSelf: 'center', marginTop: 10}}
+          numColumns={2}
+          data={data?.getBookByCategory}
+          keyExtractor={item => item?.id?.toString()}
+          renderItem={({item, index}) => <BookCard data={item} index={index} />}
+        />
+      )}
     </View>
   );
 };

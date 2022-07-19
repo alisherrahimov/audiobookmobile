@@ -1,20 +1,41 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../types/NavigationType';
-import {style} from '../style/Index';
 import Header from './components/Header';
 import {AppTheme, normalize, Style} from '../style/Style';
 import Slider from '@react-native-community/slider';
 import {images} from '../image/intro/images';
 import {URL} from '../../App';
 import {SvgXml} from 'react-native-svg';
+import TrackPlayer, {useProgress} from 'react-native-track-player';
 const Book: React.FC = () => {
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   const {colors, dark} = useTheme() as AppTheme;
   const {params} = useRoute();
+  const [pause, setPause] = React.useState(true);
+  const {position} = useProgress();
+  const [currentTime, setCurrentTime] = React.useState(position);
   const {item} = params;
+  useEffect(() => {
+    setupPlayer();
+  }, []);
+  const setupPlayer = async () => {
+    await TrackPlayer.setupPlayer({});
+  };
+  const onStart = async () => {
+    await TrackPlayer.add([
+      {url: URL + item?.book?.audio_link, title: item.title},
+    ]);
+    await TrackPlayer.play();
+    setPause(false);
+  };
+  const onPause = async () => {
+    await TrackPlayer.pause();
+    setPause(true);
+  };
+
   return (
     <View style={styles.container}>
       <Header title={item?.book.title} />
@@ -40,9 +61,14 @@ const Book: React.FC = () => {
         </View>
         <View style={{width: '100%'}}>
           <Slider
+            value={currentTime}
+            onValueChange={val => {
+              setCurrentTime(val);
+              TrackPlayer.seekTo(val);
+            }}
             style={{height: 40}}
             minimumValue={0}
-            maximumValue={1}
+            maximumValue={item?.book?.duration}
             minimumTrackTintColor="#4838D1"
             maximumTrackTintColor="#DDD7FC"
             thumbTintColor="#4838D1"
@@ -53,9 +79,13 @@ const Book: React.FC = () => {
               justifyContent: 'space-between',
               marginHorizontal: normalize(18),
             }}>
-            <Text style={[styles.count, {color: colors.text}]}>00.00</Text>
             <Text style={[styles.count, {color: colors.text}]}>
-              {item?.book?.duration}
+              {new Date(position * 1000).toISOString().substr(11, 8)}
+            </Text>
+            <Text style={[styles.count, {color: colors.text}]}>
+              {new Date(item?.book?.duration * 1000)
+                .toISOString()
+                .substr(11, 8)}
             </Text>
           </View>
         </View>
@@ -73,11 +103,18 @@ const Book: React.FC = () => {
                 height={normalize(40)}
               />
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.8} style={styles.touch}>
+            <TouchableOpacity
+              onPress={pause ? onStart : onPause}
+              activeOpacity={0.8}
+              style={styles.touch}>
               <SvgXml
-                xml={images.play(dark ? '#fff' : '#4838D1')}
-                width={normalize(50)}
-                height={normalize(50)}
+                xml={
+                  !pause
+                    ? images.pause(dark ? '#DDD7FC' : '#4838D1')
+                    : images.play(dark ? '#DDD7FC' : '#4838D1')
+                }
+                width={normalize(60)}
+                height={normalize(60)}
               />
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.8} style={styles.touch}>
@@ -139,14 +176,5 @@ const styles = StyleSheet.create({
     width: '100%',
     height: normalize(258),
     borderRadius: normalize(15),
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.46,
-    shadowRadius: 11.14,
-
-    elevation: 17,
   },
 });

@@ -146,7 +146,7 @@ const AppNavigator = () => {
   return (
     <StackNavigator.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName="BottomTab">
+      initialRouteName="AuthNavigator">
       <StackNavigator.Screen
         name="AuthNavigator"
         component={AuthStackNavigator}
