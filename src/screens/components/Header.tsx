@@ -7,7 +7,7 @@ import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigationType} from '../../types/NavigationType';
 interface Props {
-  title: string;
+  title?: string;
   onPress?: () => void;
   addButton?: boolean;
   ButtonPress?: () => void;
@@ -24,7 +24,7 @@ const Header: React.FC<Props> = ({
   const {dark, colors} = useTheme() as AppTheme;
   const checkLength = (title: string) => {
     if (title.length > 25) {
-      return title.substring(0, 25) + '...';
+      return title?.substring(0, 25) + '...';
     }
     return title;
   };
@@ -70,7 +70,7 @@ const Header: React.FC<Props> = ({
                 : Style.lightColor.textColor,
             },
           ]}>
-          {checkLength(title)}
+          {title && checkLength(title)}
         </Text>
       </View>
       {addButton && (

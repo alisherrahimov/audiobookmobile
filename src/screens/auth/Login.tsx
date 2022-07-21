@@ -24,23 +24,27 @@ const Login: React.FC = () => {
   const [password, setPassword] = React.useState('');
   const [login, {loading}] = useLoginMutation();
   const _postData = async () => {
-    try {
-      const {data} = await login({
-        variables: {
-          input: {
-            email: email,
-            password: password,
+    if (email.length <= 0 || password.length <= 0) {
+      Alert.alert('Xatolik', 'Iltimos kamida email va parolni kiriting!');
+    } else {
+      try {
+        const {data} = await login({
+          variables: {
+            input: {
+              email: email,
+              password: password,
+            },
           },
-        },
-      });
+        });
 
-      if (data?.login.error && data !== null) {
-        Alert.alert('ERROR', JSON.stringify(data.login.message));
-      } else {
-        navigation.navigate('BottomTab');
+        if (data?.login.error && data !== null) {
+          Alert.alert('ERROR', JSON.stringify(data.login.message));
+        } else {
+          navigation.navigate('BottomTab');
+        }
+      } catch (error) {
+        Alert.alert('ERROR', JSON.stringify(error));
       }
-    } catch (error) {
-      Alert.alert('ERROR', JSON.stringify(error));
     }
   };
 

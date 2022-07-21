@@ -20,8 +20,8 @@ export type NavigationType = {
   Welcome: any;
   SelectTopic: any;
   Books: {
-    title: string;
-    id: string;
+    title?: string | undefined;
+    id?: string | undefined;
   };
   BookDetails: any;
   GroupNavigator: any;

@@ -3,12 +3,16 @@ import React, {useEffect} from 'react';
 import Header from './components/Header';
 import BookCard from './components/BookCard';
 import {useRoute} from '@react-navigation/native';
-import {HomeTabScreenProps, NavigationType} from '../types/NavigationType';
+import {
+  HomeTabScreenProps,
+  NavigationType,
+  RootStackScreenProps,
+} from '../types/NavigationType';
 import {useGetBookByCategoryMutation} from '../generated/graphql';
 import Loading from './components/Loading';
 
 const Books = () => {
-  const route = useRoute<HomeTabScreenProps<'Books'>['route']>();
+  const route = useRoute<RootStackScreenProps<'Books'>['route']>();
   const {title, id} = route.params;
   const [book, {loading, data, error}] = useGetBookByCategoryMutation();
   useEffect(() => {
@@ -27,7 +31,7 @@ const Books = () => {
           contentContainerStyle={{alignSelf: 'center', marginTop: 10}}
           numColumns={2}
           data={data?.getBookByCategory}
-          keyExtractor={item => item?.id?.toString()}
+          keyExtractor={(_, index) => index.toString()}
           renderItem={({item, index}) => <BookCard data={item} index={index} />}
         />
       )}

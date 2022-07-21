@@ -6,7 +6,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {SvgXml} from 'react-native-svg';
 import {images} from '../../image/intro/images';
 import {AppTheme, normalize, Style} from '../../style/Style';
@@ -20,26 +20,33 @@ const Register = () => {
   const {colors, dark} = useTheme() as AppTheme;
   const navigation = useNavigation<NativeStackNavigationProp<NavigationType>>();
   const [register, {loading}] = useRegisterMutation();
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [username, setUsername] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
 
   const _postData = async () => {
-    try {
-      const {data} = await register({
-        variables: {
-          email: email,
-          password: password,
-          username: username,
-        },
-      });
-      if (data?.register?.error) {
-        Alert.alert('ERROR', JSON.stringify(data?.register?.message));
-      } else {
-        navigation.navigate('UserActive', {email: email});
+    if (username.length <= 0 || email.length <= 0 || password.length <= 0) {
+      Alert.alert(
+        'Xatolik',
+        'Iltimos kamida foydalanuvchi nomi, email va parolni kiriting!',
+      );
+    } else {
+      try {
+        const {data} = await register({
+          variables: {
+            email: email,
+            password: password,
+            username: username,
+          },
+        });
+        if (data?.register?.error) {
+          Alert.alert('ERROR', JSON.stringify(data?.register?.message));
+        } else {
+          navigation.navigate('UserActive', {email: email});
+        }
+      } catch (error) {
+        Alert.alert('ERROR', JSON.stringify(error));
       }
-    } catch (error) {
-      Alert.alert('ERROR', JSON.stringify(error));
     }
   };
 

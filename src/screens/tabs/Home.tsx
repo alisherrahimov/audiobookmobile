@@ -28,7 +28,7 @@ const Home = () => {
   if (loading) {
     return <LoadingHome />;
   }
-  console.log(data);
+
   return (
     <SafeAreaView
       style={[styles.container, {backgroundColor: colors.background}]}>

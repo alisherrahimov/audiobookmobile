@@ -16,7 +16,7 @@ const NewReleaseCard: React.FC<Props> = ({index, item}) => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => {
-        navigation.navigate('BookDetails');
+        navigation.navigate('BookDetails', {item: item});
       }}
       style={[
         styles.container,
